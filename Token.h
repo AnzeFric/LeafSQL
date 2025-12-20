@@ -7,8 +7,9 @@
 
 #include <string>
 
+// Init the enum inside the Token for later importing in other files
 struct Token {
-    enum class Type { Keyword, Identifier, Comma, End };
+    enum class Type { Keyword, Identifier, Everything, Comma, Start, End };
     Type type;
     std::string value;
 };
