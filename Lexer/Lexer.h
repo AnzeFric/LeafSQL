@@ -9,14 +9,15 @@
 #include <stdexcept>
 #include <algorithm>
 
-
 class Lexer {
 private:
     std::string query;
     size_t pos;
+    Token token;
 public:
     explicit Lexer(std::string query);
     Token nextToken();
+    Token getToken();
 };
 
 #endif //LEAFSQL_LEXER_H

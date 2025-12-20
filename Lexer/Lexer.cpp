@@ -4,24 +4,38 @@
 
 #include "./Lexer.h"
 
-Lexer::Lexer(std::string query): query(std::move(query)), pos(0) {}
+#include <iostream>
+
+Lexer::Lexer(std::string query): query(std::move(query)), pos(0), token(Token(Token::Type::Start, "")) {}
 
 Token Lexer::nextToken() {
+    if (pos > query.length() - 1) {
+        // Error
+        throw std::runtime_error(std::string("Calling nextToken after end of query"));
+    }
+
     // Skip whitespace
-    while (pos < query.length() && std::isspace(query[pos])) {
+    while (std::isspace(query[pos])) {
         pos++;
     }
 
     // End of query
-    if (pos >= query.length()) {
-        return Token(Token::Type::End, "");
+    if (pos == query.length() - 1) {
+        pos++;
+        this->token = Token(Token::Type::End, ";");
+        return this->token;
     }
 
-    // Comma
+    // Comma or *
     const char c = query[pos];
     if (c == ',') {
         pos++;
-        return {Token::Type::Comma, ","};
+        this->token = {Token::Type::Comma, ","};
+        return this->token;
+    } else if (c == '*') {
+        pos++;
+        this->token = {Token::Type::Everything, "*"};
+        return this->token;
     }
 
     // Other
@@ -40,12 +54,18 @@ Token Lexer::nextToken() {
 
         // TODO: Add other keywords with an arr
         if (upper == "SELECT" || upper == "FROM") {
-            return {Token::Type::Keyword, upper};
+            this->token = {Token::Type::Keyword, upper};
+            return this->token;
         }
 
-        return {Token::Type::Identifier, word};
+        this->token = {Token::Type::Identifier, word};
+        return this->token;
     }
 
     // Error
     throw std::runtime_error(std::string("Unexpected character: ") + c);
+}
+
+Token Lexer::getToken() {
+    return this->token;
 }
