@@ -5,8 +5,18 @@
 #ifndef LEAFSQL_SELECTFROMSTATEMENT_H
 #define LEAFSQL_SELECTFROMSTATEMENT_H
 
+#include <string>
+#include <vector>
 
 class SelectFromStatement {
+private:
+    std::string table;
+    std::vector<std::string> fields;
+public:
+    SelectFromStatement();
+    SelectFromStatement(const std::string &table, const std::vector<std::string> &fields);
+    void setTable(const std::string& newTable);
+    void setFields(const std::string& newField);
 };
 
 
