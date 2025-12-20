@@ -5,19 +5,21 @@
 #ifndef LEAFSQL_QUERYPARSER_H
 #define LEAFSQL_QUERYPARSER_H
 
+#include <iostream>
 #include <string>
 #include <vector>
-#include <unordered_map>
+#include <utility>
 #include "../Lexer/Lexer.h"
-#include "../Statements.h"
+#include "../SelectFromStatement.h"
 
 class QueryParser {
 private:
-    Lexer& lexer;
+    std::string query;
+    std::vector<Token> tokens;
 public:
-    explicit QueryParser(Lexer& lexer);
-    std::vector<std::string> parseQuery();
-    std::string toString();
+    explicit QueryParser(std::string  query);
+    void parseQuery();
+    void print() const;
 };
 
 #endif //LEAFSQL_QUERYPARSER_H

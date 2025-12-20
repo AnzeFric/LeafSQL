@@ -9,4 +9,6 @@ add_executable(LeafSQL main.cpp
         Token.h
         Lexer/Lexer.cpp
         Lexer/Lexer.h
+        SelectFromStatement.cpp
+        SelectFromStatement.h
 )
