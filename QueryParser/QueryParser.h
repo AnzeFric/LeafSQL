@@ -10,7 +10,7 @@
 #include <vector>
 #include <utility>
 #include "../Lexer/Lexer.h"
-#include "../SelectFromStatement.h"
+#include "../SelectFromStatement/SelectFromStatement.h"
 
 class QueryParser {
 private:

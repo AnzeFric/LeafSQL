@@ -2,7 +2,7 @@
 // Created by anzef on 20. 12. 2025.
 //
 
-#include "SelectFromStatement.h"
+#include "../SelectFromStatement.h"
 
 SelectFromStatement::SelectFromStatement() {}
 
