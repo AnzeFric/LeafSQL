@@ -11,6 +11,9 @@
 #include <utility>
 #include "../Lexer/Lexer.h"
 #include "../SelectFromStatement/SelectFromStatement.h"
+#include "../Token/Token.h"
+#include "../Token/KeywordToken/KeywordToken.h"
+#include "../Token/Types/KeywordType.h"
 
 class QueryParser {
 private:
@@ -23,3 +26,4 @@ public:
 };
 
 #endif //LEAFSQL_QUERYPARSER_H
+
