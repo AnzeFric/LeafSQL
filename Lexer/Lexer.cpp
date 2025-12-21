@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-Lexer::Lexer(std::string query): query(std::move(query)), pos(0), token(Token(Token::Type::Start, "")) {}
+Lexer::Lexer(std::string query): query(std::move(query)), pos(0), token(Token(TokenType::Start, "")) {}
 
 Token Lexer::nextToken() {
     if (pos > query.length() - 1) {
@@ -22,7 +22,7 @@ Token Lexer::nextToken() {
     // End of query
     if (pos == query.length() - 1) {
         pos++;
-        this->token = Token(Token::Type::End, ";");
+        this->token = Token(TokenType::End, ";");
         return this->token;
     }
 
@@ -30,11 +30,11 @@ Token Lexer::nextToken() {
     const char c = query[pos];
     if (c == ',') {
         pos++;
-        this->token = {Token::Type::Comma, ","};
+        this->token = {TokenType::Comma, ","};
         return this->token;
     } else if (c == '*') {
         pos++;
-        this->token = {Token::Type::Everything, "*"};
+        this->token = {TokenType::Everything, "*"};
         return this->token;
     }
 
@@ -54,11 +54,11 @@ Token Lexer::nextToken() {
 
         // TODO: Add other keywords with an arr
         if (upper == "SELECT" || upper == "FROM") {
-            this->token = {Token::Type::Keyword, upper};
+            this->token = {TokenType::Keyword, upper};
             return this->token;
         }
 
-        this->token = {Token::Type::Identifier, word};
+        this->token = {TokenType::Identifier, word};
         return this->token;
     }
 
