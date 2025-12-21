@@ -2,7 +2,7 @@
 // Created by anzef on 14. 12. 2025.
 //
 
-#include "./Lexer.h"
+#include "Lexer.h"
 
 #include <iostream>
 
