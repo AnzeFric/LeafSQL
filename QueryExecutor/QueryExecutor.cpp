@@ -13,3 +13,5 @@ void QueryExecutor::executeInsertQuery(const InsertIntoStatement& insertIntoStat
 void QueryExecutor::executeUpdateQuery(const UpdateStatement& updateStatement) const {};
 
 void QueryExecutor::executeDeleteQuery(const DeleteFromStatement& deleteFromStatement) const {};
+
+void QueryExecutor::executeCreateQuery(const CreateStatement& createStatement) const {};
