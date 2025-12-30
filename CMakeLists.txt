@@ -8,8 +8,8 @@ add_executable(LeafSQL main.cpp
         QueryParser/QueryParser.h
         Lexer/Lexer.cpp
         Lexer/Lexer.h
-        SelectFromStatement/SelectFromStatement.cpp
-        SelectFromStatement/SelectFromStatement.h
+        Statements/SelectFromStatement/SelectFromStatement.cpp
+        Statements/SelectFromStatement/SelectFromStatement.h
         QueryExecutor/QueryExecutor.cpp
         QueryExecutor/QueryExecutor.h
         Token/Token.h
@@ -17,4 +17,10 @@ add_executable(LeafSQL main.cpp
         Token/Types/KeywordType.h
         Token/KeywordToken/KeywordToken.cpp
         Token/KeywordToken/KeywordToken.h
+        Statements/InsertIntoStatement/InsertIntoStatement.cpp
+        Statements/InsertIntoStatement/InsertIntoStatement.h
+        Statements/UpdateStatement/UpdateStatement.cpp
+        Statements/UpdateStatement/UpdateStatement.h
+        Statements/DeleteFromStatement/DeleteFromStatement.cpp
+        Statements/DeleteFromStatement/DeleteFromStatement.h
 )
