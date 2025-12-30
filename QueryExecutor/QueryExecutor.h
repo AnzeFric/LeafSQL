@@ -6,17 +6,18 @@
 #define LEAFSQL_QUERYEXECUTOR_H
 
 #include <utility>
-#include "../SelectFromStatement/SelectFromStatement.h"
+#include "../Statements/SelectFromStatement/SelectFromStatement.h"
+#include "../Statements/InsertIntoStatement/InsertIntoStatement.h"
+#include "../Statements/UpdateStatement/UpdateStatement.h"
+#include "../Statements/DeleteFromStatement/DeleteFromStatement.h"
 
 class QueryExecutor {
-private:
-    SelectFromStatement selectFromStatement;
 public:
-    QueryExecutor(SelectFromStatement selectFromStatement);
-    void executeSelectQuery() const;
-    void executeInsertQuery() const;
-    void executeDeleteQuery() const;
-    void executeUpdateQuery() const;
+    QueryExecutor();
+    void executeSelectQuery(const SelectFromStatement& selectFromStatement) const;
+    void executeInsertQuery(const InsertIntoStatement& insertIntoStatement) const;
+    void executeUpdateQuery(const UpdateStatement& updateStatement) const;
+    void executeDeleteQuery(const DeleteFromStatement& deleteFromStatement) const;
 };
 
 #endif //LEAFSQL_QUERYEXECUTOR_H

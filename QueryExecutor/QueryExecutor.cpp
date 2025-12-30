@@ -4,9 +4,12 @@
 
 #include "QueryExecutor.h"
 
-QueryExecutor::QueryExecutor(SelectFromStatement selectFromStatement): selectFromStatement(std::move(selectFromStatement)) {}
+QueryExecutor::QueryExecutor() {}
 
-void QueryExecutor::executeSelectQuery() const {}
-void QueryExecutor::executeInsertQuery() const {}
-void QueryExecutor:: executeDeleteQuery() const {}
-void QueryExecutor::executeUpdateQuery() const {}
+void QueryExecutor::executeSelectQuery(const SelectFromStatement& selectFromStatement) const {};
+
+void QueryExecutor::executeInsertQuery(const InsertIntoStatement& insertIntoStatement) const {};
+
+void QueryExecutor::executeUpdateQuery(const UpdateStatement& updateStatement) const {};
+
+void QueryExecutor::executeDeleteQuery(const DeleteFromStatement& deleteFromStatement) const {};

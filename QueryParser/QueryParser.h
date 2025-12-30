@@ -27,4 +27,3 @@ public:
 };
 
 #endif //LEAFSQL_QUERYPARSER_H
-
