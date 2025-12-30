@@ -6,6 +6,7 @@
 #define LEAFSQL_KEYWORDTYPE_H
 
 enum class KeywordType {
+    CREATE,
     SELECT,
     INSERT,
     DELETE,

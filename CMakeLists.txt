@@ -23,4 +23,6 @@ add_executable(LeafSQL main.cpp
         Statements/UpdateStatement/UpdateStatement.h
         Statements/DeleteFromStatement/DeleteFromStatement.cpp
         Statements/DeleteFromStatement/DeleteFromStatement.h
+        Statements/CreateStatement/CreateStatement.cpp
+        Statements/CreateStatement/CreateStatement.h
 )

@@ -32,6 +32,10 @@ void parseDeleteQuery () {}
 // TODO: parseUpdateQuery
 void parseUpdateQuery () {}
 
+void parseCreateQuery() {
+
+}
+
 void QueryParser::parseQuery() {
     Lexer lexer = Lexer(this->query);
 
@@ -53,6 +57,9 @@ void QueryParser::parseQuery() {
             break;
         case KeywordType::UPDATE:
             parseUpdateQuery();
+            break;
+        case KeywordType::CREATE:
+            parseCreateQuery();
             break;
         default:
             throw std::runtime_error(std::string("SQL statement is invalid!"));
