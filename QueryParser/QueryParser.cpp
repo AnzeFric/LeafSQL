@@ -21,7 +21,6 @@ void parseSelectQuery (Lexer& lexer, std::vector<Token>& tokens) {
     // Table
     selectFromStatement.setTable(lexer.nextToken().getValue());
     tokens.push_back(lexer.getToken());
-
 }
 
 // TODO: parseInsertQuery
