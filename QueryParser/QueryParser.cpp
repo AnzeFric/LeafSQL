@@ -42,7 +42,7 @@ void parseCreateQuery(Lexer& lexer, std::vector<Token>& tokens, const QueryExecu
     tokens.push_back(token);
     std::string createType = token.getValue();
 
-    if (createType != "TABLE" || createType != "DATABASE") {
+    if (createType != "TABLE" && createType != "DATABASE") {
         throw std::runtime_error("Unknown type: " + createType + ". Expected: TABLE or DATABASE");
     }
 
