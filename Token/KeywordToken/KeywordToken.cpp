@@ -9,7 +9,8 @@ KeywordType stringToKeywordType(const std::string& value) {
         {"SELECT", KeywordType::SELECT},
         {"INSERT", KeywordType::INSERT},
         {"DELETE", KeywordType::DELETE},
-        {"UPDATE", KeywordType::UPDATE}
+        {"UPDATE", KeywordType::UPDATE},
+        {"CREATE", KeywordType::CREATE}
     };
 
     if (const auto it = keywordMap.find(value); it != keywordMap.end()) {
