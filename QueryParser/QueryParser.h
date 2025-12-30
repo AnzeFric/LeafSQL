@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 #include <utility>
-#include "../Lexer/Lexer.h"
+#include "./Lexer/Lexer.h"
 #include "../Statements/SelectFromStatement/SelectFromStatement.h"
 #include "../Statements/InsertIntoStatement/InsertIntoStatement.h"
 #include "../Token/Token.h"

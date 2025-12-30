@@ -6,8 +6,8 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(LeafSQL main.cpp
         QueryParser/QueryParser.cpp
         QueryParser/QueryParser.h
-        Lexer/Lexer.cpp
-        Lexer/Lexer.h
+        QueryParser/Lexer/Lexer.cpp
+        QueryParser/Lexer/Lexer.h
         Statements/SelectFromStatement/SelectFromStatement.cpp
         Statements/SelectFromStatement/SelectFromStatement.h
         QueryExecutor/QueryExecutor.cpp
