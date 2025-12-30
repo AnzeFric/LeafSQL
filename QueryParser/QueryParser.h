@@ -15,6 +15,8 @@
 #include "../Token/Token.h"
 #include "../Token/KeywordToken/KeywordToken.h"
 #include "../Token/Types/KeywordType.h"
+#include "../Statements/CreateStatement/CreateStatement.h"
+#include "../QueryExecutor/QueryExecutor.h"
 
 class QueryParser {
 private:
