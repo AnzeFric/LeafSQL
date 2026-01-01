@@ -2,16 +2,12 @@
 // Created by anzef on 30. 12. 2025.
 //
 
-#include "CreateStatement.h"
+#include "CreateDatabaseStatement.h"
 
-CreateStatement::CreateStatement() {};
+CreateDatabaseStatement::CreateDatabaseStatement() {};
 
-CreateStatement::CreateStatement(std::string name, bool isTable): name(std::move(name)), isTable(std::move(isTable)) {};
+CreateDatabaseStatement::CreateDatabaseStatement(std::string name): name(std::move(name)) {};
 
-void CreateStatement::setName(const std::string& name) {
+void CreateDatabaseStatement::setName(const std::string& name) {
     this->name = name;
-};
-
-void CreateStatement::setIsTable(const bool& isTable) {
-    this->isTable = isTable;
 };

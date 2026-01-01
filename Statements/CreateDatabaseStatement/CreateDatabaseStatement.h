@@ -2,12 +2,11 @@
 // Created by anzef on 30. 12. 2025.
 //
 
-#ifndef LEAFSQL_CREATESTATEMENT_H
-#define LEAFSQL_CREATESTATEMENT_H
+#ifndef LEAFSQL_CREATEDATABASESTATEMENT_H
+#define LEAFSQL_CREATEDATABASESTATEMENT_H
 
 #include <string>
 
-// Used for creating tables and databases
 class CreateDatabaseStatement {
 private:
     std::string name;
@@ -17,4 +16,4 @@ public:
     void setName(const std::string& name);
 };
 
-#endif //LEAFSQL_CREATESTATEMENT_H
+#endif //LEAFSQL_CREATEDATABASESTATEMENT_H
