@@ -8,15 +8,13 @@
 #include <string>
 
 // Used for creating tables and databases
-class CreateStatement {
+class CreateDatabaseStatement {
 private:
     std::string name;
-    bool isTable = false;
 public:
-    CreateStatement();
-    CreateStatement(std::string name, bool isTable);
+    CreateDatabaseStatement();
+    CreateDatabaseStatement(std::string name);
     void setName(const std::string& name);
-    void setIsTable(const bool& isTable);
 };
 
 #endif //LEAFSQL_CREATESTATEMENT_H
