@@ -3,6 +3,16 @@
 //
 
 #include "QueryParser.h"
+#include <iostream>
+#include <utility>
+#include "./Lexer/Lexer.h"
+#include "../QueryExecutor/QueryExecutor.h"
+#include "../Token/KeywordToken/KeywordToken.h"
+#include "../Token/Types/KeywordType.h"
+#include "../Statements/SelectFromStatement/SelectFromStatement.h"
+#include "../Statements/InsertIntoStatement/InsertIntoStatement.h"
+#include "../Statements/CreateDatabaseStatement/CreateDatabaseStatement.h"
+#include "../Statements/CreateTableStatement/CreateTableStatement.h"
 
 QueryParser::QueryParser(std::string  query) : query(std::move(query)), tokens({}) {}
 
@@ -35,30 +45,33 @@ void parseDeleteQuery (Lexer& lexer, std::vector<Token>& tokens, const QueryExec
 void parseUpdateQuery (Lexer& lexer, std::vector<Token>& tokens, const QueryExecutor& queryExecutor) {}
 
 void parseCreateQuery(Lexer& lexer, std::vector<Token>& tokens, const QueryExecutor& queryExecutor) {
-    CreateStatement createStatement = CreateStatement();
-
     // Get the type -> TABLE | DATABASE
     Token token = lexer.nextToken();
     tokens.push_back(token);
-    std::string createType = token.getValue();
+    const std::string createType = token.getValue();
 
     if (createType != "TABLE" && createType != "DATABASE") {
         throw std::runtime_error("Unknown type: " + createType + ". Expected: TABLE or DATABASE");
     }
 
-    // Setting only for table, as the value is set to 'false' by default
-    if (createType == "TABLE") {
-        createStatement.setIsTable(true);
-    }
-
     // Get name
     token = lexer.nextToken();
     tokens.push_back(token);
+    const std::string name = token.getValue();
 
-    std::string name = token.getValue();
-    createStatement.setName(name);
+    if (createType == "TABLE") {
+        CreateTableStatement createTable = CreateTableStatement();
+        createTable.setName(name);
 
-    queryExecutor.executeCreateQuery(createStatement);
+        // TODO: Parse columns and their attributes
+
+        queryExecutor.executeCreateTableQuery(createTable);
+    } else {
+        CreateDatabaseStatement createDatabase = CreateDatabaseStatement();
+        createDatabase.setName(name);
+
+        queryExecutor.executeCreateDatabaseQuery(createDatabase);
+    }
 }
 
 void QueryParser::parseQuery() {
