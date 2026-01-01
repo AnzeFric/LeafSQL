@@ -14,4 +14,6 @@ void QueryExecutor::executeUpdateQuery(const UpdateStatement& updateStatement) c
 
 void QueryExecutor::executeDeleteQuery(const DeleteFromStatement& deleteFromStatement) const {};
 
-void QueryExecutor::executeCreateQuery(const CreateStatement& createStatement) const {};
+void QueryExecutor::executeCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement) const {};
+
+void QueryExecutor::executeCreateTableQuery(const CreateTableStatement& createTableStatement) const {};

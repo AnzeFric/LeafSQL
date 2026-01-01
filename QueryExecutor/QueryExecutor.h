@@ -10,7 +10,8 @@
 #include "../Statements/InsertIntoStatement/InsertIntoStatement.h"
 #include "../Statements/UpdateStatement/UpdateStatement.h"
 #include "../Statements/DeleteFromStatement/DeleteFromStatement.h"
-#include "../Statements/CreateStatement/CreateStatement.h"
+#include "../Statements/CreateDatabaseStatement/CreateDatabaseStatement.h"
+#include "../Statements/CreateTableStatement/CreateTableStatement.h"
 
 class QueryExecutor {
 public:
@@ -19,7 +20,8 @@ public:
     void executeInsertQuery(const InsertIntoStatement& insertIntoStatement) const;
     void executeUpdateQuery(const UpdateStatement& updateStatement) const;
     void executeDeleteQuery(const DeleteFromStatement& deleteFromStatement) const;
-    void executeCreateQuery(const CreateStatement& createStatement) const;
+    void executeCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement) const;
+    void executeCreateTableQuery(const CreateTableStatement& createTableStatement) const;
 };
 
 #endif //LEAFSQL_QUERYEXECUTOR_H
