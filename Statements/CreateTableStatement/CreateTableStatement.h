@@ -6,15 +6,19 @@
 #define LEAFSQL_CREATETABLESTATEMENT_H
 
 #include <string>
+#include <vector>
 
-// TODO: Add columns and their attributes
 class CreateTableStatement {
 private:
     std::string name;
+    std::vector<std::string> columns;
+    std::vector<std::vector<std::string>> attributes;
 public:
-    CreateTableStatement();
-    CreateTableStatement(std::string name);
+    CreateTableStatement() = default;
+    CreateTableStatement(std::string name, std::vector<std::string> columns, std::vector<std::vector<std::string>> attributes);
     void setName(const std::string& name);
+    void setColumns(const std::vector<std::string>& columns);
+    void setAttributes(const std::vector<std::vector<std::string>>& attributes);
 };
 
 #endif //LEAFSQL_CREATETABLESTATEMENT_H
