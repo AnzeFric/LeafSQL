@@ -4,8 +4,6 @@
 
 #include "CreateDatabaseStatement.h"
 
-CreateDatabaseStatement::CreateDatabaseStatement() {};
-
 CreateDatabaseStatement::CreateDatabaseStatement(std::string name): name(std::move(name)) {};
 
 void CreateDatabaseStatement::setName(const std::string& name) {

@@ -14,7 +14,7 @@ private:
     std::vector<std::string> columns;
     std::vector<std::string> values;
 public:
-    UpdateStatement();
+    UpdateStatement() = default;
     UpdateStatement(std::string table, std::vector<std::string> columns, std::vector<std::string> values);
     void setTable(const std::string& table);
     void setColumns(const std::vector<std::string>& columns);

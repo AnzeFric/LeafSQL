@@ -4,8 +4,6 @@
 
 #include "DeleteFromStatement.h"
 
-DeleteFromStatement::DeleteFromStatement() {};
-
 DeleteFromStatement::DeleteFromStatement(std::string table): table(std::move(table)) {};
 
 void DeleteFromStatement::setTable(std::string table) {

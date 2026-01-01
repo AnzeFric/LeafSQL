@@ -4,8 +4,6 @@
 
 #include "SelectFromStatement.h"
 
-SelectFromStatement::SelectFromStatement() {}
-
 SelectFromStatement::SelectFromStatement(std::string table, const std::vector<std::string>& fields): table(std::move(table)), fields(fields) {}
 
 void SelectFromStatement::setTable(const std::string& newTable) {

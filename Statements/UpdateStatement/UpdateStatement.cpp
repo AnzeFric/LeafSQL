@@ -4,12 +4,10 @@
 
 #include "UpdateStatement.h"
 
-UpdateStatement::UpdateStatement() {};
-
 UpdateStatement::UpdateStatement(std::string table, std::vector<std::string> columns, std::vector<std::string> values): table(std::move(table)), columns(std::move(columns)), values(std::move(values)) {};
 
 void UpdateStatement::setTable(const std::string& table) {
-    this->table = std::move(table);
+    this->table = table;
 };
 
 void UpdateStatement::setColumns(const std::vector<std::string>& columns) {

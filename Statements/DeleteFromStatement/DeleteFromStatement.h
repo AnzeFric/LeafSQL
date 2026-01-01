@@ -11,7 +11,7 @@ class DeleteFromStatement {
 private:
     std::string table;
 public:
-    DeleteFromStatement();
+    DeleteFromStatement() = default;
     DeleteFromStatement(std::string table);
     void setTable(std::string table);
 };
