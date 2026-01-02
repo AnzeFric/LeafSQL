@@ -15,10 +15,10 @@ private:
     std::vector<std::string> values;
 public:
     InsertIntoStatement() = default;
-    InsertIntoStatement(std::string table, std::vector<std::string> columns, std::vector<std::string> values);
-    void setTable(std::string table);
-    void setColumns(std::vector<std::string> columns);
-    void setValues(std::vector<std::string> values);
+    InsertIntoStatement(std::string _table, std::vector<std::string> _columns, std::vector<std::string> _values);
+    void setTable(std::string _table);
+    void setColumns(std::vector<std::string> _columns);
+    void setValues(std::vector<std::string> _values);
     std::string getTable();
     std::vector<std::string> getColumns();
     std::vector<std::string> getValues();

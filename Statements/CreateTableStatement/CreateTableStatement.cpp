@@ -4,19 +4,19 @@
 
 #include "CreateTableStatement.h"
 
-CreateTableStatement::CreateTableStatement(std::string name, std::vector<std::string> columns, std::vector<std::vector<std::string>> attributes) :
-        name(std::move(name)), columns(std::move(columns)), attributes(std::move(attributes)) {};
+CreateTableStatement::CreateTableStatement(std::string _name, std::vector<std::string> _columns, std::vector<std::vector<std::string>> _attributes):
+                                        name(std::move(_name)), columns(std::move(_columns)), attributes(std::move(_attributes)) {};
 
-void CreateTableStatement::setName(const std::string& name) {
-        this->name = name;
+void CreateTableStatement::setName(std::string _name) {
+        this->name = std::move(_name);
 };
 
-void CreateTableStatement::setColumns(const std::vector<std::string>& columns) {
-        this->columns = columns;
+void CreateTableStatement::setColumns(std::vector<std::string> _columns) {
+        this->columns = std::move(_columns);
 };
 
-void CreateTableStatement::setAttributes(const std::vector<std::vector<std::string>>& attributes) {
-        this->attributes = attributes;
+void CreateTableStatement::setAttributes(std::vector<std::vector<std::string>> _attributes) {
+        this->attributes = std::move(_attributes);
 };
 
 std::string CreateTableStatement::getName() {

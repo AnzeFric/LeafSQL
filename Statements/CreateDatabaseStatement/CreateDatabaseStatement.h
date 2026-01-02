@@ -12,8 +12,8 @@ private:
     std::string name;
 public:
     CreateDatabaseStatement() = default;
-    CreateDatabaseStatement(std::string name);
-    void setName(const std::string& name);
+    explicit CreateDatabaseStatement(std::string _name);
+    void setName(std::string _name);
     std::string getName();
 };
 

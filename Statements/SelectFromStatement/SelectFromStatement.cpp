@@ -3,15 +3,17 @@
 //
 
 #include "SelectFromStatement.h"
+#include <utility>
 
-SelectFromStatement::SelectFromStatement(std::string table, std::vector<std::string> fields): table(std::move(table)), fields(std::move(fields)) {}
+SelectFromStatement::SelectFromStatement(std::string _table, std::vector<std::string> _fields):
+                                    table(std::move(_table)), fields(std::move(_fields)) {}
 
-void SelectFromStatement::setTable(std::string table) {
-    this->table = std::move(table);
+void SelectFromStatement::setTable(std::string _table) {
+    this->table = std::move(_table);
 }
 
-void SelectFromStatement::setFields(std::vector<std::string> fields) {
-   this->fields = std::move(fields);
+void SelectFromStatement::setFields(std::vector<std::string> _fields) {
+   this->fields = std::move(_fields);
 }
 
 void SelectFromStatement::addField(std::string newField) {

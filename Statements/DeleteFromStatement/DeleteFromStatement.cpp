@@ -4,10 +4,11 @@
 
 #include "DeleteFromStatement.h"
 
-DeleteFromStatement::DeleteFromStatement(std::string table): table(std::move(table)) {};
+DeleteFromStatement::DeleteFromStatement(std::string _table):
+                                    table(std::move(_table)) {};
 
-void DeleteFromStatement::setTable(std::string table) {
-    this->table = std::move(table);
+void DeleteFromStatement::setTable(std::string _table) {
+    this->table = std::move(_table);
 };
 
 std::string DeleteFromStatement::getTable() {

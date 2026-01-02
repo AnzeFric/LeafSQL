@@ -15,10 +15,10 @@ private:
     std::vector<std::vector<std::string>> attributes;
 public:
     CreateTableStatement() = default;
-    CreateTableStatement(std::string name, std::vector<std::string> columns, std::vector<std::vector<std::string>> attributes);
-    void setName(const std::string& name);
-    void setColumns(const std::vector<std::string>& columns);
-    void setAttributes(const std::vector<std::vector<std::string>>& attributes);
+    CreateTableStatement(std::string _name, std::vector<std::string> _columns, std::vector<std::vector<std::string>> _attributes);
+    void setName(std::string _name);
+    void setColumns(std::vector<std::string> _columns);
+    void setAttributes(std::vector<std::vector<std::string>> _attributes);
     std::string getName();
     std::vector<std::string> getColumns();
     std::vector<std::vector<std::string>> getAttributes();

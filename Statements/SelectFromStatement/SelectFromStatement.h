@@ -7,7 +7,6 @@
 
 #include <string>
 #include <vector>
-#include <utility>
 
 class SelectFromStatement {
 private:
@@ -15,9 +14,9 @@ private:
     std::vector<std::string> fields;
 public:
     SelectFromStatement() = default;
-    SelectFromStatement(std::string table, std::vector<std::string> fields);
-    void setTable(std::string table);
-    void setFields(std::vector<std::string> fields);
+    SelectFromStatement(std::string _table, std::vector<std::string> _fields);
+    void setTable(std::string _table);
+    void setFields(std::vector<std::string> _fields);
     void addField(std::string newField);
     std::string getTable();
     std::vector<std::string> getFields();
