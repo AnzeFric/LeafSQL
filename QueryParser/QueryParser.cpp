@@ -21,7 +21,7 @@ void parseSelectQuery (Lexer& lexer, std::vector<Token>& tokens, const QueryExec
 
     // Columns - Loop until next Keyword -> FROM
     while (lexer.nextToken().getType() != TokenType::Keyword) {
-        selectFromStatement.setFields(lexer.getToken().getValue());
+        selectFromStatement.addField(lexer.getToken().getValue());
         tokens.push_back(lexer.getToken());
     }
 
@@ -44,7 +44,7 @@ void parseDeleteQuery (Lexer& lexer, std::vector<Token>& tokens, const QueryExec
 // TODO: parseUpdateQuery
 void parseUpdateQuery (Lexer& lexer, std::vector<Token>& tokens, const QueryExecutor& queryExecutor) {}
 
-void parseCreateQuery(Lexer& lexer, std::vector<Token>& tokens, const QueryExecutor& queryExecutor) {
+void parseCreateQuery(Lexer& lexer, std::vector<Token>& tokens, QueryExecutor queryExecutor) {
     // Get the type -> TABLE | DATABASE
     Token token = lexer.nextToken();
     tokens.push_back(token);
