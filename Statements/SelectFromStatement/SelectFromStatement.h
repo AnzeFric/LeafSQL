@@ -15,9 +15,10 @@ private:
     std::vector<std::string> fields;
 public:
     SelectFromStatement() = default;
-    SelectFromStatement(std::string table, const std::vector<std::string> &fields);
-    void setTable(std::string newTable);
-    void setFields(std::string newField);
+    SelectFromStatement(std::string table, std::vector<std::string> fields);
+    void setTable(std::string table);
+    void setFields(std::vector<std::string> fields);
+    void addField(std::string newField);
     std::string getTable();
     std::vector<std::string> getFields();
 };
