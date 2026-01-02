@@ -14,6 +14,7 @@ public:
     DeleteFromStatement() = default;
     DeleteFromStatement(std::string table);
     void setTable(std::string table);
+    std::string getTable();
 };
 
 

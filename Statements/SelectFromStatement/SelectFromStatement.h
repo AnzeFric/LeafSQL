@@ -16,8 +16,10 @@ private:
 public:
     SelectFromStatement() = default;
     SelectFromStatement(std::string table, const std::vector<std::string> &fields);
-    void setTable(const std::string& newTable);
-    void setFields(const std::string& newField);
+    void setTable(std::string newTable);
+    void setFields(std::string newField);
+    std::string getTable();
+    std::vector<std::string> getFields();
 };
 
 #endif //LEAFSQL_SELECTFROMSTATEMENT_H

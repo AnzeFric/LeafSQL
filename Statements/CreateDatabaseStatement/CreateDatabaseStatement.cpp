@@ -9,3 +9,8 @@ CreateDatabaseStatement::CreateDatabaseStatement(std::string name): name(std::mo
 void CreateDatabaseStatement::setName(const std::string& name) {
     this->name = name;
 };
+
+std::string CreateDatabaseStatement::getName() {
+    return this->name;
+};
+

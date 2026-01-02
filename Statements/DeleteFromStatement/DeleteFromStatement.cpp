@@ -9,3 +9,7 @@ DeleteFromStatement::DeleteFromStatement(std::string table): table(std::move(tab
 void DeleteFromStatement::setTable(std::string table) {
     this->table = std::move(table);
 };
+
+std::string DeleteFromStatement::getTable() {
+    return std::move(this->table);
+};
