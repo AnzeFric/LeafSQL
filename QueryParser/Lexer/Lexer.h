@@ -16,7 +16,7 @@ private:
     size_t pos;
     Token token;
 public:
-    explicit Lexer(std::string query);
+    explicit Lexer(std::string _query);
     Token nextToken();
     Token getToken();
 };

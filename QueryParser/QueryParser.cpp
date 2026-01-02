@@ -14,7 +14,7 @@
 #include "../Statements/CreateDatabaseStatement/CreateDatabaseStatement.h"
 #include "../Statements/CreateTableStatement/CreateTableStatement.h"
 
-QueryParser::QueryParser(std::string  query) : query(std::move(query)), tokens({}) {}
+QueryParser::QueryParser(std::string _query) : query(std::move(_query)), tokens({}) {}
 
 void parseSelectQuery (Lexer& lexer, std::vector<Token>& tokens, const QueryExecutor& queryExecutor) {
     SelectFromStatement selectFromStatement = SelectFromStatement();

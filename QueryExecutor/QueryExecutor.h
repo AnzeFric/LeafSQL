@@ -15,7 +15,7 @@
 
 class QueryExecutor {
 public:
-    QueryExecutor();
+    QueryExecutor() = default;
     void executeSelectQuery(const SelectFromStatement& selectFromStatement) const;
     void executeInsertQuery(const InsertIntoStatement& insertIntoStatement) const;
     void executeUpdateQuery(const UpdateStatement& updateStatement) const;

@@ -13,13 +13,11 @@ class Token {
 protected:
     TokenType type;
     std::string value;
-
 public:
-    Token(const TokenType type, std::string value): type(type), value(std::move(value)) {};
+    Token(const TokenType& _type, std::string _value): type(_type), value(std::move(_value)) {};
     Token(const Token& token): type(token.getType()), value(token.getValue()) {};
-    
-    TokenType getType() const { return this->type; };
-    std::string getValue() const { return this->value; };
+    [[nodiscard]] TokenType getType() const { return this->type; };
+    [[nodiscard]] std::string getValue() const { return this->value; };
 };
 
 #endif //LEAFSQL_TOKEN_H

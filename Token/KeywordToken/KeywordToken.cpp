@@ -3,6 +3,8 @@
 //
 
 #include "KeywordToken.h"
+#include <unordered_map>
+#include <stdexcept>
 
 KeywordType stringToKeywordType(const std::string& value) {
     static const std::unordered_map<std::string, KeywordType> keywordMap = {

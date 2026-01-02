@@ -5,8 +5,6 @@
 #ifndef LEAFSQL_KEYWORDTOKEN_H
 #define LEAFSQL_KEYWORDTOKEN_H
 
-#include <unordered_map>
-#include <stdexcept>
 #include <string>
 #include "../Token.h"
 #include "../Types/KeywordType.h"
@@ -17,7 +15,7 @@ private:
 public:
     KeywordToken(TokenType type, const std::string &value, const std::string& keywordStr);
     KeywordToken(const Token& token, const std::string& keywordStr);
-    KeywordType getKeywordType() const;
+    [[nodiscard]] KeywordType getKeywordType() const;
 };
 
 #endif //LEAFSQL_KEYWORDTOKEN_H

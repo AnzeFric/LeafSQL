@@ -14,7 +14,7 @@ private:
     std::string query;
     std::vector<Token> tokens;
 public:
-    explicit QueryParser(std::string  query);
+    explicit QueryParser(std::string _query);
     void parseQuery();
     void print() const;
 };

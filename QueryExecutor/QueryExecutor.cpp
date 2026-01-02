@@ -6,8 +6,6 @@
 #include <filesystem>
 #include <stdexcept>
 
-QueryExecutor::QueryExecutor() {}
-
 void QueryExecutor::executeSelectQuery(const SelectFromStatement& selectFromStatement) const {};
 
 void QueryExecutor::executeInsertQuery(const InsertIntoStatement& insertIntoStatement) const {};

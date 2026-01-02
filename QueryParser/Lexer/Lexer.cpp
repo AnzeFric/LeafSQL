@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-Lexer::Lexer(std::string query): query(std::move(query)), pos(0), token(Token(TokenType::Start, "")) {}
+Lexer::Lexer(std::string _query): query(std::move(_query)), pos(0), token(Token(TokenType::Start, "")) {}
 
 Token Lexer::nextToken() {
     if (pos > query.length() - 1) {
