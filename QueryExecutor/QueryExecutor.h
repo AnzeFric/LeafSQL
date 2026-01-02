@@ -20,7 +20,7 @@ public:
     void executeInsertQuery(const InsertIntoStatement& insertIntoStatement) const;
     void executeUpdateQuery(const UpdateStatement& updateStatement) const;
     void executeDeleteQuery(const DeleteFromStatement& deleteFromStatement) const;
-    void executeCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement) const;
+    void executeCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement);
     void executeCreateTableQuery(const CreateTableStatement& createTableStatement) const;
 };
 
