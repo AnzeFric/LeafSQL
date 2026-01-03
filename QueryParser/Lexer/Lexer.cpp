@@ -4,8 +4,6 @@
 
 #include "Lexer.h"
 
-#include <iostream>
-
 Lexer::Lexer(std::string _query): query(std::move(_query)), pos(0), token(Token(TokenType::Start, "")) {}
 
 Token Lexer::nextToken() {
@@ -26,15 +24,21 @@ Token Lexer::nextToken() {
         return this->token;
     }
 
-    // Comma or *
+    // Comma, *, ( or )
     const char c = query[pos];
     if (c == ',') {
         pos++;
         this->token = {TokenType::Comma, ","};
         return this->token;
-    } else if (c == '*') {
+    }
+    if (c == '*') {
         pos++;
         this->token = {TokenType::Everything, "*"};
+        return this->token;
+    }
+    if (c == '(' || c == ')') {
+        pos++;
+        this->token = {TokenType::Bracket, std::string(1, c)};
         return this->token;
     }
 
@@ -42,7 +46,8 @@ Token Lexer::nextToken() {
     if (std::isalpha(c)) {
         const size_t start = pos;
 
-        while (pos < query.size() && std::isalnum(query[pos])) {
+        // Check if the token has alfanum char or '_' exception, example: 'created_at'
+        while (pos < query.size() && (std::isalnum(query[pos]) || query[pos] == '_')) {
             pos++;
         }
 
