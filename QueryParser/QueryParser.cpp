@@ -63,6 +63,53 @@ void parseDeleteQuery (Lexer& lexer, std::vector<Token>& tokens) {}
 // TODO: parseUpdateQuery
 void parseUpdateQuery (Lexer& lexer, std::vector<Token>& tokens) {}
 
+void parseTableValues(Lexer& lexer, std::vector<Token>& tokens, CreateTableStatement& createTable) {
+    // Starting bracket - '('
+    Token token = lexer.nextToken();
+    tokens.push_back(token);
+    if (token.getValue() != "(") {
+        throw std::runtime_error("Syntax error! Expected '(' but got: " + token.getValue());
+    }
+
+    // First column name
+    token = lexer.nextToken();
+    tokens.push_back(token);
+    createTable.addColumn(token.getValue());
+
+    std::vector<std::string> attributes;
+
+    // Read attributes for the first column
+    token = lexer.nextToken();
+    tokens.push_back(token);
+
+    while (token.getType() != TokenType::Bracket && token.getType() != TokenType::End) {
+        if (token.getType() == TokenType::Comma) {
+            // Save attributes for the previous column
+            createTable.addAttribute(attributes);
+            attributes.clear();
+
+            // Next column name
+            token = lexer.nextToken();
+            tokens.push_back(token);
+            createTable.addColumn(token.getValue());
+        } else {
+            // Attribute for the current column
+            attributes.push_back(token.getValue());
+        }
+
+        token = lexer.nextToken();
+        tokens.push_back(token);
+    }
+
+    // Attributes for the last column
+    createTable.addAttribute(attributes);
+
+    // Closing bracket - ')'
+    if (token.getValue() != ")") {
+        throw std::runtime_error("Syntax error! Expected ')' but got: " + token.getValue());
+    }
+}
+
 void parseCreateQuery(Lexer& lexer, std::vector<Token>& tokens, const std::string& _dbName) {
     // Get the type -> TABLE | DATABASE
     Token token = lexer.nextToken();
@@ -82,7 +129,7 @@ void parseCreateQuery(Lexer& lexer, std::vector<Token>& tokens, const std::strin
         CreateTableStatement createTable = CreateTableStatement();
         createTable.setName(name);
 
-        // TODO: Parse columns and their attributes
+        parseTableValues(lexer, tokens, createTable);
 
         QueryExecutor::executeCreateTableQuery(createTable, _dbName);
     } else {
