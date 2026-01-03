@@ -15,6 +15,14 @@ void CreateTableStatement::setColumns(std::vector<std::string> _columns) {
         this->columns = std::move(_columns);
 };
 
+void CreateTableStatement::addColumn(std::string column) {
+        this->columns.push_back(std::move(column));
+};
+
+void CreateTableStatement::addAttribute(std::vector<std::string> attribute) {
+        this->attributes.push_back(std::move(attribute));
+};
+
 void CreateTableStatement::setAttributes(std::vector<std::vector<std::string>> _attributes) {
         this->attributes = std::move(_attributes);
 };

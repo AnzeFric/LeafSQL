@@ -19,6 +19,8 @@ public:
     void setName(std::string _name);
     void setColumns(std::vector<std::string> _columns);
     void setAttributes(std::vector<std::vector<std::string>> _attributes);
+    void addColumn(std::string column);
+    void addAttribute(std::vector<std::string> attribute);
     std::string getName();
     std::vector<std::string> getColumns();
     std::vector<std::vector<std::string>> getAttributes();
