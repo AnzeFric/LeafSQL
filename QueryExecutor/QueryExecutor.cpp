@@ -34,16 +34,20 @@ void QueryExecutor::executeCreateDatabaseQuery(CreateDatabaseStatement createDat
 
 void QueryExecutor::executeCreateTableQuery(CreateTableStatement createTableStatement, const std::string& dbName) {
     const std::string tableName = createTableStatement.getName();
+    auto columns = createTableStatement.getColumns();
+    auto attributes = createTableStatement.getAttributes();
 
     const std::string dirPathStr = "data/" + dbName + "/" + tableName + "/";
     const std::string tableDataStr = dirPathStr + tableName + "_data.csv";
-    const std::string tableDefinitionStr = dirPathStr + tableName + "_definition.csv";
+    const std::string tableColumnsStr = dirPathStr + tableName + "_columns.csv";
+    const std::string tableAttributesStr = dirPathStr + tableName + "_attributes.csv";
 
     namespace fs = std::filesystem;
 
     fs::path dirPath(dirPathStr);
     fs::path dataPath(tableDataStr);
-    fs::path definitionPath(tableDefinitionStr);
+    fs::path columnPath(tableColumnsStr);
+    fs::path attributePath(tableAttributesStr);
 
     // Fail if table already exists
     if (fs::exists(dirPath)) {
@@ -59,23 +63,31 @@ void QueryExecutor::executeCreateTableQuery(CreateTableStatement createTableStat
         );
     }
 
-    std::ofstream definitionFile(definitionPath);
-    if (!definitionFile.is_open()) {
-        throw std::runtime_error("Failed to create table definition file: " + tableDefinitionStr);
+    std::ofstream columnFile(columnPath);
+    if (!columnFile.is_open()) {
+        throw std::runtime_error("Failed to create table column file: " + tableColumnsStr);
     }
 
-    auto columns = createTableStatement.getColumns();
-    auto attributes = createTableStatement.getAttributes();
+    for (const auto& column: columns) {
+        columnFile << column << "\n";
+    }
+    columnFile.close();
 
-    for (int i = 0; i < columns.size(); i++) {
-        std::string input = columns[i];
-        for (const auto &attribute : attributes[i]) {
-            input += ", " + attribute;
+    std::ofstream attributeFile(attributePath);
+    if (!attributeFile.is_open()) {
+        throw std::runtime_error("Failed to create table attribute file: " + tableAttributesStr);
+    }
+
+    for (const auto& attribute : attributes) {
+        for (size_t i = 0; i < attribute.size(); i++) {
+            attributeFile << attribute[i];
+            if (i < attribute.size() - 1) {
+                attributeFile << ", ";
+            }
         }
-        definitionFile << input << "\n";
+        attributeFile << "\n";
     }
-
-    definitionFile.close();
+    attributeFile.close();
 
     // Create empty data file
     std::ofstream dataFile(dataPath);
