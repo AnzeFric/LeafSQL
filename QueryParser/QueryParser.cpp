@@ -39,8 +39,11 @@ void parseSelectQuery (Lexer& lexer) {
     SelectFromStatement selectFromStatement = SelectFromStatement();
 
     // Columns - Loop until next Keyword -> FROM
-    while (lexer.nextToken().getType() != TokenType::Keyword) {
-        selectFromStatement.addField(lexer.getToken().getValue());
+    Token token = lexer.nextToken();
+
+    while (token.getType() != TokenType::Keyword) {
+        selectFromStatement.addField(token.getValue());
+        token = lexer.nextToken();
     }
 
     // Table name
@@ -49,8 +52,52 @@ void parseSelectQuery (Lexer& lexer) {
     QueryExecutor::executeSelectQuery(selectFromStatement);
 }
 
-// TODO: parseInsertQuery
-void parseInsertQuery (Lexer& lexer) {}
+void parseInsertQuery (Lexer& lexer) {
+    InsertIntoStatement insertIntoStatement = InsertIntoStatement();
+
+    // INTO
+    Token token = lexer.nextToken();
+
+    // Table name
+    insertIntoStatement.setTable(lexer.nextToken().getValue());
+
+    // Starting bracket - '('
+    lexer.nextToken();
+
+    std::vector<std::string> columns;
+
+    // Column - get first value
+    columns.push_back(lexer.nextToken().getValue());
+
+    // Skip comma and check if it's the end with the closing bracket: ')'
+    while ((token = lexer.nextToken()).getType() != TokenType::Bracket || token.getValue() != ")") {
+        // Column
+        columns.push_back(lexer.nextToken().getValue());
+    }
+
+    insertIntoStatement.setColumns(columns);
+
+    // VALUES
+    lexer.nextToken();
+
+    // Starting bracket - '('
+    lexer.nextToken();
+
+    std::vector<std::string> values;
+
+    // Column - get first value
+    values.push_back(lexer.nextToken().getValue());
+
+    // Skip comma and check if it's the end with the closing bracket: ')'
+    while ((token = lexer.nextToken()).getType() != TokenType::Bracket || token.getValue() != ")") {
+        // Column
+        values.push_back(lexer.nextToken().getValue());
+    }
+
+    insertIntoStatement.setValues(values);
+
+    QueryExecutor::executeInsertQuery(insertIntoStatement);
+}
 
 // TODO: parseDeleteQuery
 void parseDeleteQuery (Lexer& lexer) {}
@@ -135,8 +182,6 @@ void QueryParser::parseQuery() {
     const Token firstKeyword = lexer.nextToken();
 
     const KeywordToken keywordToken = KeywordToken(firstKeyword, firstKeyword.getValue());
-
-    QueryExecutor queryExecutor = QueryExecutor();
 
     switch (keywordToken.getKeywordType()) {
         case KeywordType::SELECT:
