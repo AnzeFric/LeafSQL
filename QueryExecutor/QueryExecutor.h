@@ -16,10 +16,10 @@
 class QueryExecutor {
 public:
     QueryExecutor() = default;
-    static void executeSelectQuery(const SelectFromStatement& selectFromStatement);
-    static void executeInsertQuery(const InsertIntoStatement& insertIntoStatement);
-    static void executeUpdateQuery(const UpdateStatement& updateStatement);
-    static void executeDeleteQuery(const DeleteFromStatement& deleteFromStatement);
+    static void executeSelectQuery(SelectFromStatement selectFromStatement);
+    static void executeInsertQuery(InsertIntoStatement insertIntoStatement);
+    static void executeUpdateQuery(UpdateStatement updateStatement);
+    static void executeDeleteQuery(DeleteFromStatement deleteFromStatement);
     static void executeCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement);
     static void executeCreateTableQuery(CreateTableStatement createTableStatement, const std::string& dbName);
 };

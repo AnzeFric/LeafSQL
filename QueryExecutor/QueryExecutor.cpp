@@ -6,14 +6,25 @@
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
+#include <iostream>
 
-void QueryExecutor::executeSelectQuery(const SelectFromStatement& selectFromStatement) {};
+void QueryExecutor::executeSelectQuery(SelectFromStatement selectFromStatement) {};
 
-void QueryExecutor::executeInsertQuery(const InsertIntoStatement& insertIntoStatement) {};
+void QueryExecutor::executeInsertQuery(InsertIntoStatement insertIntoStatement) {
+    std::cout << "Columns: " << std::endl;
+    for (const auto& column : insertIntoStatement.getColumns()) {
+        std::cout << column << std::endl;
+    }
 
-void QueryExecutor::executeUpdateQuery(const UpdateStatement& updateStatement) {};
+    std::cout << "Values: " << std::endl;
+    for (const auto& value : insertIntoStatement.getValues()) {
+        std::cout << value << std::endl;
+    }
+};
 
-void QueryExecutor::executeDeleteQuery(const DeleteFromStatement& deleteFromStatement) {};
+void QueryExecutor::executeUpdateQuery(UpdateStatement updateStatement) {};
+
+void QueryExecutor::executeDeleteQuery(DeleteFromStatement deleteFromStatement) {};
 
 void QueryExecutor::executeCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement) {
     const std::string dbName = createDatabaseStatement.getName();
