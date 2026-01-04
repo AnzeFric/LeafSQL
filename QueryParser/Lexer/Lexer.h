@@ -7,16 +7,17 @@
 
 #include "../../Token/Token.h"
 #include <stdexcept>
+#include <vector>
 
 class Lexer {
 private:
     std::string query;
     size_t pos;
-    Token token;
+    const std::vector<std::string> reservedWords = {"SELECT", "FROM", "INSERT", "INTO", "CREATE", "TABLE", "USE", "DATABASE", "UPDATE"};
+    const std::vector<char> exceptionChar = {'.', '@', '_', '-'};
 public:
     explicit Lexer(std::string _query);
     Token nextToken();
-    Token getToken();
 };
 
 #endif //LEAFSQL_LEXER_H
