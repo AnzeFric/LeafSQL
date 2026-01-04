@@ -6,14 +6,11 @@
 #define LEAFSQL_QUERYPARSER_H
 
 #include <string>
-#include <vector>
-#include "../Token/Token.h"
 #include "./Lexer/Lexer.h"
 
 class QueryParser {
 private:
     std::string query;
-    std::vector<Token> tokens;
     std::string dbName;
 
     void parseUseDatabaseQuery(Lexer& lexer);
@@ -23,7 +20,6 @@ public:
     void setDbName(std::string _dbName);
     void setQuery(std::string _query);
     void parseQuery();
-    void print() const;
 };
 
 #endif //LEAFSQL_QUERYPARSER_H

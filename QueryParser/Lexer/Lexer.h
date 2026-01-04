@@ -6,9 +6,7 @@
 #define LEAFSQL_LEXER_H
 
 #include "../../Token/Token.h"
-#include "../../Token/Types/TokenType.h"
 #include <stdexcept>
-#include <algorithm>
 
 class Lexer {
 private:

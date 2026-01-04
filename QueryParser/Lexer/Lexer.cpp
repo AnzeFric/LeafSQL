@@ -3,6 +3,8 @@
 //
 
 #include "Lexer.h"
+#include <algorithm>
+#include "../../Token/Types/TokenType.h"
 
 Lexer::Lexer(std::string _query): query(std::move(_query)), pos(0), token(Token(TokenType::Start, "")) {}
 

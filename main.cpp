@@ -9,11 +9,9 @@ int main() {
 
     QueryParser queryParser = QueryParser(useDBQuery);
     queryParser.parseQuery();
-    queryParser.print();
 
     queryParser.setQuery(createTableQuery);
     queryParser.parseQuery();
-    queryParser.print();
 
     return 0;
 }
