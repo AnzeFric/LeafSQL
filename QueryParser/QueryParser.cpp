@@ -52,7 +52,7 @@ void parseSelectQuery (Lexer& lexer) {
     QueryExecutor::executeSelectQuery(selectFromStatement);
 }
 
-void parseInsertQuery (Lexer& lexer) {
+void parseInsertQuery (Lexer& lexer, const std::string& _dbName) {
     InsertIntoStatement insertIntoStatement = InsertIntoStatement();
 
     // INTO
@@ -96,7 +96,7 @@ void parseInsertQuery (Lexer& lexer) {
 
     insertIntoStatement.setValues(values);
 
-    QueryExecutor::executeInsertQuery(insertIntoStatement);
+    QueryExecutor::executeInsertQuery(insertIntoStatement, _dbName);
 }
 
 // TODO: parseDeleteQuery
@@ -188,7 +188,7 @@ void QueryParser::parseQuery() {
             parseSelectQuery(lexer);
             break;
         case KeywordType::INSERT:
-            parseInsertQuery(lexer);
+            parseInsertQuery(lexer, this->dbName);
             break;
         case KeywordType::DELETE:
             parseDeleteQuery(lexer);
