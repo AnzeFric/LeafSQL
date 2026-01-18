@@ -10,7 +10,35 @@
 
 void QueryExecutor::executeSelectQuery(SelectFromStatement selectFromStatement) {};
 
-void QueryExecutor::executeInsertQuery(InsertIntoStatement insertIntoStatement) {
+std::vector<std::string> getFileContents(const std::string& filePath) {
+    std::ifstream file(filePath);
+    if (!file.is_open()) {
+        throw std::runtime_error("Failed to open file (on path: " + filePath + ")");
+    }
+
+    std::string column;
+    std::vector<std::string> columns;
+
+    while (std::getline(file, column)) {
+        columns.push_back(column);
+    }
+
+    file.close();
+
+    return columns;
+}
+
+void QueryExecutor::executeInsertQuery(InsertIntoStatement insertIntoStatement, const std::string& dbName) {
+    const std::string tableName = insertIntoStatement.getTable();
+    const std::string dirPathStr = "data/" + dbName + "/" + tableName + "/";
+
+    const std::string tableDataStr = dirPathStr + tableName + "_data.csv";
+    const std::string tableColumnsStr = dirPathStr + tableName + "_columns.csv";
+    const std::string tableAttributesStr = dirPathStr + tableName + "_attributes.csv";
+
+    const std::vector<std::string> tableColumns = getFileContents(tableColumnsStr);
+    const std::vector<std::string> tableAttributes = getFileContents(tableAttributesStr);
+
     std::cout << "Columns: " << std::endl;
     for (const auto& column : insertIntoStatement.getColumns()) {
         std::cout << column << std::endl;
@@ -18,6 +46,16 @@ void QueryExecutor::executeInsertQuery(InsertIntoStatement insertIntoStatement) 
 
     std::cout << "Values: " << std::endl;
     for (const auto& value : insertIntoStatement.getValues()) {
+        std::cout << value << std::endl;
+    }
+
+    std::cout << "Table columns: " << std::endl;
+    for (const auto& column : tableColumns) {
+        std::cout << column << std::endl;
+    }
+
+    std::cout << "Table attributes: " << std::endl;
+    for (const auto& value : tableAttributes) {
         std::cout << value << std::endl;
     }
 };
