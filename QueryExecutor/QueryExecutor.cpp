@@ -39,25 +39,45 @@ void QueryExecutor::executeInsertQuery(InsertIntoStatement insertIntoStatement, 
     const std::vector<std::string> tableColumns = getFileContents(tableColumnsStr);
     const std::vector<std::string> tableAttributes = getFileContents(tableAttributesStr);
 
-    std::cout << "Columns: " << std::endl;
-    for (const auto& column : insertIntoStatement.getColumns()) {
-        std::cout << column << std::endl;
+    std::ofstream dataFile(tableDataStr, std::ios::app);
+    if (!dataFile.is_open()) {
+        throw std::runtime_error("Failed to open table data file: " + tableDataStr);
     }
 
-    std::cout << "Values: " << std::endl;
-    for (const auto& value : insertIntoStatement.getValues()) {
-        std::cout << value << std::endl;
+    const std::vector<std::string> insertColumns = insertIntoStatement.getColumns();
+    const std::vector<std::string> insertValues = insertIntoStatement.getValues();
+
+    std::string insertValue;
+    for (int i = 0; i < tableColumns.size(); i++ ) {
+        int columnAttributeIndex = -1;
+        for (int j = 0; j < insertColumns.size(); j++) {
+            if (insertColumns[j] == tableColumns[i]) {
+                columnAttributeIndex = j;
+            }
+        }
+
+        // Column value not provided - check if it can be NULL
+        if (columnAttributeIndex == -1) {
+            const std::string& columnAttributes = tableAttributes[i];
+            if (columnAttributes.find("NULL") != std::string::npos) {
+                insertValue += "NULL, ";
+            } else {
+                throw std::runtime_error("For NOT NULLABLE column " + tableColumns[i] + " in table: " + tableName + ", no value was provided");
+            }
+        } else {
+            insertValue += insertValues[columnAttributeIndex] + ", ";
+        }
     }
 
-    std::cout << "Table columns: " << std::endl;
-    for (const auto& column : tableColumns) {
-        std::cout << column << std::endl;
+    if (insertValue.empty()) {
+        throw std::runtime_error("Inserted value is empty!");
     }
+    insertValue.pop_back(); // Remove " " - Space
+    insertValue.pop_back(); // Remove "," - Comma
 
-    std::cout << "Table attributes: " << std::endl;
-    for (const auto& value : tableAttributes) {
-        std::cout << value << std::endl;
-    }
+    dataFile << insertValue << "\n";
+
+    dataFile.close();
 };
 
 void QueryExecutor::executeUpdateQuery(UpdateStatement updateStatement) {};
