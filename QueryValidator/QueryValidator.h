@@ -6,7 +6,6 @@
 #define LEAFSQL_QUERYVALIDATOR_H
 
 #include "../Statements/SelectFromStatement/SelectFromStatement.h"
-#include "../Statements/InsertIntoStatement/InsertIntoStatement.h"
 #include "../Statements/UpdateStatement/UpdateStatement.h"
 #include "../Statements/DeleteFromStatement/DeleteFromStatement.h"
 #include "../Statements/CreateDatabaseStatement/CreateDatabaseStatement.h"
@@ -16,7 +15,11 @@ class QueryValidator {
 public:
     QueryValidator() = default;
     static void validateSelectQuery(SelectFromStatement selectFromStatement);
-    static void validateInsertQuery(InsertIntoStatement insertIntoStatement, const std::string& dbName);
+    static void validateInsertQuery( std::fstream& dataFile,
+                                    const std::vector<std::string>& tableColumns,
+                                    const std::vector<std::string>& tableAttributes,
+                                    const std::vector<std::string>& insertColumns,
+                                    const std::vector<std::string>& insertValues);
     static void validateUpdateQuery(UpdateStatement updateStatement);
     static void validateDeleteQuery(DeleteFromStatement deleteFromStatement);
     static void validateCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement);
