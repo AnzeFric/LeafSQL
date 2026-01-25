@@ -46,15 +46,29 @@ void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement, 
     const std::vector<std::string> tableAttributes = getFileContents(filePathData[1]);
 
     // Get user insert values
-    const std::vector<std::string> insertColumns = insertIntoStatement.getColumns();
-    const std::vector<std::string> insertValues = insertIntoStatement.getValues();
+    std::vector<std::string> insertColumns = insertIntoStatement.getColumns();
+    std::vector<std::string> insertValues = insertIntoStatement.getValues();
 
     std::fstream dataFile(filePathData[2], std::ios::out | std::ios::app);
     if (!dataFile.is_open()) {
         throw std::runtime_error("Failed to open table: " + tableName);
     }
 
-    // TODO: Before validation fill the NULL insertColumns and insertValues tables
+    for (int columnIndex = 0; columnIndex < tableColumns.size(); columnIndex++) {
+        bool foundColumn = false;
+        for (const auto & insertColumn : insertColumns) {
+            if (tableColumns[columnIndex] == insertColumn) {
+                foundColumn = true;
+                break;
+            }
+        }
+
+        // Column not inserted, check if it's NULL
+        if (!foundColumn && tableAttributes[columnIndex].find("NULL") != std::string::npos) {
+            insertColumns.push_back(tableColumns[columnIndex]);
+            insertValues.push_back(", NULL");
+        }
+    }
 
     QueryValidator::validateInsertQuery(dataFile, tableColumns, tableAttributes, insertColumns, insertValues);
 
