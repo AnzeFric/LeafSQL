@@ -1,47 +1,76 @@
-1. Create a new database:
-    CREATE DATABASE <name>;
+# LeafSQL Documentation
 
-Parameters:
-    <name> - string
+## Database Operations
 
-Example:
+### Create a New Database
+
+```sql
+CREATE DATABASE <name>;
+```
+
+**Parameters:**
+- `<name>` - Database name (string)
+
+**Example:**
+```
 CREATE DATABASE LeafDB;
+```
 
-2. Use a database:
-   USE <name>;
 
-Parameters:
-    <name> - string
+### Use a Database
 
-Example:
+```
+USE <name>;
+```
+
+**Parameters:**
+- `<name>` - Database name (string)
+
+**Example:**
+```sql
 USE LeafDB;
+```
 
-3. Create a table:
-   CREATE TABLE <name> (
-        <column> <attributes>,
-        <column> <attributes>
-   );
 
-Parameters:
-    <name> - string
-    <column> - string
-    <attributes> - string array
+## Table Operations
 
-<attributes> - Whitespace separated string values:
-Basic types: INT, TEXT, BOOLEAN
-Complex types: TIMESTAMP
-Setting a primary key(only 1 per table): PRIMARY
-Setting value to auto increment(has to be INT type): AUTO
-Value has to be unique in the table: UNIQUE
-Value has to be nullable(by default values are not nullable): NULL
-Setting a default value: DEFAULT <value>
+### Create a Table
 
-Example:
+```
+CREATE TABLE <name> (
+    <column> <attributes>,
+    <column> <attributes>
+);
+```
+
+**Parameters:**
+- `<name>` - Table name (string)
+- `<column>` - Column name (string)
+- `<attributes>` - Column attributes (whitespace-separated values)
+
+#### Available Attributes
+
+**Data Types:**
+- `INT` - Integer type
+- `TEXT` - Text/string type
+- `BOOLEAN` - Boolean type
+- `TIMESTAMP` - Timestamp type
+
+**Constraints:**
+- `PRIMARY` - Mark as primary key (only 1 per table)
+- `AUTO` - Auto-increment value (requires `INT` type)
+- `UNIQUE` - Value must be unique in the table
+- `NULL` - Allow null values (values are non-nullable by default)
+- `DEFAULT <value>` - Set default value
+
+**Example:**
+```
 CREATE TABLE users (
-    id INT PRIMARY, 
-    username TEXT UNIQUE, 
-    email TEXT UNIQUE, 
-    age NULL INT, 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    id INT PRIMARY AUTO,
+    username TEXT UNIQUE,
+    email TEXT UNIQUE,
+    age INT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT TRUE
 );
+```
