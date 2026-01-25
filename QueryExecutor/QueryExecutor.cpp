@@ -11,8 +11,7 @@
 
 void QueryExecutor::executeSelectQuery(SelectFromStatement selectFromStatement) {};
 
-void QueryExecutor::executeInsertQuery(std::fstream& dataFile, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes,
-                                       const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
+void QueryExecutor::executeInsertQuery(std::fstream& dataFile, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
     // TODO: (auto increment the primary key automatically if it's of type INT OR use the provided one)
     std::string insertValue;
     for (int i = 0; i < tableColumns.size(); i++) {

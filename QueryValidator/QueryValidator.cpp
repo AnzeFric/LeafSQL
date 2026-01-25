@@ -91,8 +91,7 @@ void validateInputToDefinition(const std::vector<std::string>& tableColumns, con
 
 void QueryValidator::validateSelectQuery(SelectFromStatement selectFromStatement) {}
 
-void QueryValidator::validateInsertQuery(std::fstream& dataFile, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes,
-                                       const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
+void QueryValidator::validateInsertQuery(std::fstream& dataFile, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
 
     validateInputToDefinition(tableColumns, tableAttributes, insertColumns, insertValues);
 
@@ -116,7 +115,7 @@ void QueryValidator::validateInsertQuery(std::fstream& dataFile, const std::vect
         }
 
         // Check if provided primary key is of type int
-        int insertPrimaryKey;
+        int insertPrimaryKey = -1;
         try {
             insertPrimaryKey = std::stoi(insertValues[insertPrimaryKeyIndex]);
         } catch (const std::exception& e) {
