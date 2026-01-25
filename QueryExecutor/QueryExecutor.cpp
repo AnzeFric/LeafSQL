@@ -7,51 +7,19 @@
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
+#include <map>
 
 void QueryExecutor::executeSelectQuery(SelectFromStatement selectFromStatement) {};
 
-std::vector<std::string> getFileContents(const std::string& filePath) {
-    std::ifstream file(filePath);
-    if (!file.is_open()) {
-        throw std::runtime_error("Failed to open file (on path: " + filePath + ")");
-    }
-
-    std::string column;
-    std::vector<std::string> columns;
-
-    while (std::getline(file, column)) {
-        columns.push_back(column);
-    }
-
-    file.close();
-
-    return columns;
-}
-
-void QueryExecutor::executeInsertQuery(InsertIntoStatement insertIntoStatement, const std::string& dbName) {
-    const std::string tableName = insertIntoStatement.getTable();
-    const std::string dirPathStr = "data/" + dbName + "/" + tableName + "/";
-
-    const std::string tableDataStr = dirPathStr + tableName + "_data.csv";
-    const std::string tableColumnsStr = dirPathStr + tableName + "_columns.csv";
-    const std::string tableAttributesStr = dirPathStr + tableName + "_attributes.csv";
-
-    const std::vector<std::string> tableColumns = getFileContents(tableColumnsStr);
-    const std::vector<std::string> tableAttributes = getFileContents(tableAttributesStr);
-
-    std::ofstream dataFile(tableDataStr, std::ios::app);
-    if (!dataFile.is_open()) {
-        throw std::runtime_error("Failed to open table data file: " + tableDataStr);
-    }
-
-    const std::vector<std::string> insertColumns = insertIntoStatement.getColumns();
-    const std::vector<std::string> insertValues = insertIntoStatement.getValues();
-
+void QueryExecutor::executeInsertQuery(std::fstream& dataFile, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes,
+                                       const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
+    // TODO: (auto increment the primary key automatically if it's of type INT OR use the provided one)
     std::string insertValue;
-    for (int i = 0; i < tableColumns.size(); i++ ) {
+    for (int i = 0; i < tableColumns.size(); i++) {
         int columnAttributeIndex = -1;
         for (int j = 0; j < insertColumns.size(); j++) {
             if (insertColumns[j] == tableColumns[i]) {
+                // Check if the inserted value is the correct type
                 columnAttributeIndex = j;
             }
         }
@@ -62,7 +30,7 @@ void QueryExecutor::executeInsertQuery(InsertIntoStatement insertIntoStatement, 
             if (columnAttributes.find("NULL") != std::string::npos) {
                 insertValue += "NULL, ";
             } else {
-                throw std::runtime_error("For NOT NULLABLE column " + tableColumns[i] + " in table: " + tableName + ", no value was provided");
+                throw std::runtime_error("For NOT NULLABLE column " + tableColumns[i] + ", no value was provided");
             }
         } else {
             insertValue += insertValues[columnAttributeIndex] + ", ";
@@ -76,8 +44,6 @@ void QueryExecutor::executeInsertQuery(InsertIntoStatement insertIntoStatement, 
     insertValue.pop_back(); // Remove "," - Comma
 
     dataFile << insertValue << "\n";
-
-    dataFile.close();
 };
 
 void QueryExecutor::executeUpdateQuery(UpdateStatement updateStatement) {};
