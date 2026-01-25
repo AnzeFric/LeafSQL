@@ -5,14 +5,14 @@
 #include "QueryParser.h"
 #include <iostream>
 #include <utility>
-#include "../QueryExecutor/QueryExecutor.h"
+#include <vector>
+#include "../QueryPreparer/QueryPreparer.h"
 #include "../Token/KeywordToken/KeywordToken.h"
 #include "../Token/Types/KeywordType.h"
 #include "../Statements/SelectFromStatement/SelectFromStatement.h"
 #include "../Statements/InsertIntoStatement/InsertIntoStatement.h"
 #include "../Statements/CreateDatabaseStatement/CreateDatabaseStatement.h"
 #include "../Statements/CreateTableStatement/CreateTableStatement.h"
-#include <vector>
 #include "../Token/Token.h"
 
 QueryParser::QueryParser(std::string _query) : query(std::move(_query)) {}
@@ -49,7 +49,7 @@ void parseSelectQuery (Lexer& lexer) {
     // Table name
     selectFromStatement.setTable(lexer.nextToken().getValue());
 
-    QueryExecutor::executeSelectQuery(selectFromStatement);
+    QueryPreparer::prepareSelectQuery(selectFromStatement);
 }
 
 void parseInsertQuery (Lexer& lexer, const std::string& _dbName) {
@@ -96,7 +96,7 @@ void parseInsertQuery (Lexer& lexer, const std::string& _dbName) {
 
     insertIntoStatement.setValues(values);
 
-    QueryExecutor::executeInsertQuery(insertIntoStatement, _dbName);
+    QueryPreparer::prepareInsertQuery(insertIntoStatement, _dbName);
 }
 
 // TODO: parseDeleteQuery
@@ -166,12 +166,12 @@ void parseCreateQuery(Lexer& lexer, const std::string& _dbName) {
 
         parseTableValues(lexer, createTable);
 
-        QueryExecutor::executeCreateTableQuery(createTable, _dbName);
+        QueryPreparer::prepareCreateTableQuery(createTable, _dbName);
     } else {
         CreateDatabaseStatement createDatabase = CreateDatabaseStatement();
         createDatabase.setName(name);
 
-        QueryExecutor::executeCreateDatabaseQuery(createDatabase);
+        QueryPreparer::prepareCreateDatabaseQuery(createDatabase);
     }
 }
 
