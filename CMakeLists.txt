@@ -27,4 +27,8 @@ add_executable(LeafSQL main.cpp
         Statements/CreateDatabaseStatement/CreateDatabaseStatement.h
         Statements/CreateTableStatement/CreateTableStatement.cpp
         Statements/CreateTableStatement/CreateTableStatement.h
+        QueryValidator/DataType/DataType.cpp
+        QueryValidator/DataType/DataType.h
+        QueryValidator/QueryValidator.cpp
+        QueryValidator/QueryValidator.h
 )
