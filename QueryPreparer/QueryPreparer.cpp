@@ -6,6 +6,7 @@
 #include "../QueryValidator/QueryValidator.h"
 #include <fstream>
 #include <stdexcept>
+#include <algorithm>
 
 std::vector<std::string> getFilePathData(const std::string& tableName, const std::string& dbName) {
     const std::string dirPathStr = "data/" + dbName + "/" + tableName + "/";
@@ -35,11 +36,39 @@ std::vector<std::string> getFileContents(const std::string& filePath) {
     return columns;
 }
 
-void QueryPreparer::prepareSelectQuery(SelectFromStatement selectFromStatement) {}
+/*
+ * 1. Get the metadata of the table
+ * 2. Get user input
+ * 3. Delete locally stored columns that the user did not request.
+ *    We do this so that only existing columns can be requested.
+ */
+void QueryPreparer::prepareSelectQuery(SelectFromStatement selectFromStatement, const std::string& dbName) {
+    const std::string tableName = selectFromStatement.getTable();
+    const std::vector<std::string> filePathData = getFilePathData(tableName, dbName);
+
+    // Get table columns, table data and user requested columns
+    std::vector<std::string> tableColumns = getFileContents(filePathData[0]);
+    const std::vector<std::string> tableData = getFileContents(filePathData[2]);
+    std::vector<std::string> userColumns = selectFromStatement.getColumns();
+
+    // Delete columns in tableColumns that the user did not request
+    if (selectFromStatement.getColumns().front() != "*") {
+        for (auto it = tableColumns.begin(); it != tableColumns.end();) {
+            if (std::ranges::find(userColumns, *it) != userColumns.end()) {
+                ++it;
+            } else {
+                it = tableColumns.erase(it);
+            }
+        }
+        selectFromStatement.setColumns(tableColumns);
+    }
+
+    QueryValidator::validateSelectQuery(selectFromStatement);
+}
 
 void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement, const std::string& dbName) {
     const std::string tableName = insertIntoStatement.getTable();
-    std::vector<std::string> filePathData = getFilePathData(tableName, dbName);
+    const std::vector<std::string> filePathData = getFilePathData(tableName, dbName);
 
     // Get table definition values
     const std::vector<std::string> tableColumns = getFileContents(filePathData[0]);
