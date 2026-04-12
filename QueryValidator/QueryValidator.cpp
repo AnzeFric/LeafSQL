@@ -89,7 +89,9 @@ void validateInputToDefinition(const std::vector<std::string>& tableColumns, con
     }
 }
 
-void QueryValidator::validateSelectQuery(SelectFromStatement selectFromStatement) {}
+void QueryValidator::validateSelectQuery(SelectFromStatement selectFromStatement) {
+    QueryExecutor::executeSelectQuery(selectFromStatement);
+}
 
 void QueryValidator::validateInsertQuery(std::fstream& dataFile, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
 
