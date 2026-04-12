@@ -35,7 +35,7 @@ void QueryParser::parseUseDatabaseQuery(Lexer& lexer) {
     this->setDbName(token.getValue());
 };
 
-void parseSelectQuery (Lexer& lexer) {
+void parseSelectQuery (Lexer& lexer, const std::string& dbName) {
     SelectFromStatement selectFromStatement = SelectFromStatement();
 
     // Columns - Loop until next Keyword -> FROM
@@ -53,10 +53,10 @@ void parseSelectQuery (Lexer& lexer) {
     // Table name
     selectFromStatement.setTable(lexer.nextToken().getValue());
 
-    QueryPreparer::prepareSelectQuery(selectFromStatement);
+    QueryPreparer::prepareSelectQuery(selectFromStatement, dbName);
 }
 
-void parseInsertQuery (Lexer& lexer, const std::string& _dbName) {
+void parseInsertQuery (Lexer& lexer, const std::string& dbName) {
     InsertIntoStatement insertIntoStatement = InsertIntoStatement();
 
     // INTO
@@ -100,7 +100,7 @@ void parseInsertQuery (Lexer& lexer, const std::string& _dbName) {
 
     insertIntoStatement.setValues(values);
 
-    QueryPreparer::prepareInsertQuery(insertIntoStatement, _dbName);
+    QueryPreparer::prepareInsertQuery(insertIntoStatement, dbName);
 }
 
 // TODO: parseDeleteQuery
@@ -189,7 +189,7 @@ void QueryParser::parseQuery() {
 
     switch (keywordToken.getKeywordType()) {
         case KeywordType::SELECT:
-            parseSelectQuery(lexer);
+            parseSelectQuery(lexer, this->dbName);
             break;
         case KeywordType::INSERT:
             parseInsertQuery(lexer, this->dbName);
