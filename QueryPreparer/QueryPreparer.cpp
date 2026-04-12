@@ -82,4 +82,6 @@ void QueryPreparer::prepareCreateDatabaseQuery(CreateDatabaseStatement createDat
     QueryValidator::validateCreateDatabaseQuery(createDatabaseStatement);
 }
 
-void QueryPreparer::prepareCreateTableQuery(CreateTableStatement createTableStatement, const std::string& dbName) {}
+void QueryPreparer::prepareCreateTableQuery(CreateTableStatement createTableStatement, const std::string& dbName) {
+    QueryValidator::validateCreateTableQuery(createTableStatement, dbName);
+}
