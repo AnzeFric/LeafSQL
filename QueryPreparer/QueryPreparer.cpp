@@ -77,5 +77,9 @@ void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement, 
 
 void QueryPreparer::prepareUpdateQuery(UpdateStatement updateStatement) {}
 void QueryPreparer::prepareDeleteQuery(DeleteFromStatement deleteFromStatement) {}
-void QueryPreparer::prepareCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement) {}
+
+void QueryPreparer::prepareCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement) {
+    QueryValidator::validateCreateDatabaseQuery(createDatabaseStatement);
+}
+
 void QueryPreparer::prepareCreateTableQuery(CreateTableStatement createTableStatement, const std::string& dbName) {}
