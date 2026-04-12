@@ -5,25 +5,25 @@
 #include "SelectFromStatement.h"
 #include <utility>
 
-SelectFromStatement::SelectFromStatement(std::string _table, std::vector<std::string> _fields):
-                                    table(std::move(_table)), fields(std::move(_fields)) {}
+SelectFromStatement::SelectFromStatement(std::string _table, std::vector<std::string> _columns):
+                                    table(std::move(_table)), columns(std::move(_columns)) {}
 
 void SelectFromStatement::setTable(std::string _table) {
     this->table = std::move(_table);
 }
 
-void SelectFromStatement::setFields(std::vector<std::string> _fields) {
-   this->fields = std::move(_fields);
+void SelectFromStatement::setColumns(std::vector<std::string> _columns) {
+   this->columns = std::move(_columns);
 }
 
-void SelectFromStatement::addField(std::string newField) {
-    this->fields.push_back(std::move(newField));
+void SelectFromStatement::addColumn(std::string _column) {
+    this->columns.push_back(std::move(_column));
 }
 
 std::string SelectFromStatement::getTable() {
     return std::move(this->table);
 };
 
-std::vector<std::string> SelectFromStatement::getFields() {
-    return std::move(this->fields);
+std::vector<std::string> SelectFromStatement::getColumns() {
+    return std::move(this->columns);
 };

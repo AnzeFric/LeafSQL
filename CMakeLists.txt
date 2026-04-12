@@ -33,4 +33,5 @@ add_executable(LeafSQL main.cpp
         QueryValidator/QueryValidator.h
         QueryPreparer/QueryPreparer.cpp
         QueryPreparer/QueryPreparer.h
+        main.cpp
 )

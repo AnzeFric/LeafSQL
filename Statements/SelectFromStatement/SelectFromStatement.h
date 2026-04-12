@@ -11,15 +11,15 @@
 class SelectFromStatement {
 private:
     std::string table;
-    std::vector<std::string> fields;
+    std::vector<std::string> columns;
 public:
     SelectFromStatement() = default;
-    SelectFromStatement(std::string _table, std::vector<std::string> _fields);
+    SelectFromStatement(std::string _table, std::vector<std::string> _columns);
     void setTable(std::string _table);
-    void setFields(std::vector<std::string> _fields);
-    void addField(std::string newField);
+    void setColumns(std::vector<std::string> _columns);
+    void addColumn(std::string _column);
     std::string getTable();
-    std::vector<std::string> getFields();
+    std::vector<std::string> getColumns();
 };
 
 #endif //LEAFSQL_SELECTFROMSTATEMENT_H
