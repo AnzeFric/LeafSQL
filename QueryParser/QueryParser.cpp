@@ -40,9 +40,14 @@ void parseSelectQuery (Lexer& lexer) {
 
     // Columns - Loop until next Keyword -> FROM
     Token token = lexer.nextToken();
-    while (token.getType() != TokenType::Keyword) {
+
+    if (token.getType() == TokenType::Everything) {
         selectFromStatement.addColumn(token.getValue());
-        token = lexer.nextToken();
+    } else {
+        while (token.getType() != TokenType::Keyword) {
+            selectFromStatement.addColumn(token.getValue());
+            token = lexer.nextToken();
+        }
     }
 
     // Table name
