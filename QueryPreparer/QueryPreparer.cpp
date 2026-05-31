@@ -67,7 +67,7 @@ void QueryPreparer::prepareSelectQuery(SelectFromStatement selectFromStatement, 
     try {
         QueryValidator::validateSelectQuery(selectFromStatement);
     } catch (const std::exception& e) {
-        std::cerr << + "'" + tableName + "' table: " + e.what() << std::endl;
+        std::cerr << + "'" + tableName + "' table - select: " + e.what() << std::endl;
     }
 }
 
@@ -107,7 +107,7 @@ void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement, 
     try {
         QueryValidator::validateInsertQuery(dataFile, tableColumns, tableAttributes, insertColumns, insertValues);
     } catch (const std::exception& e) {
-        std::cerr << + "'" + tableName + "' table: " + e.what() << std::endl;
+        std::cerr << + "'" + tableName + "' table - insert: " + e.what() << std::endl;
     }
 
     dataFile.close();
@@ -120,7 +120,7 @@ void QueryPreparer::prepareCreateDatabaseQuery(CreateDatabaseStatement createDat
     try {
     QueryValidator::validateCreateDatabaseQuery(createDatabaseStatement);
     } catch (const std::exception& e) {
-        std::cerr << + "'" + createDatabaseStatement.getName() + "' database: " + e.what() << std::endl;
+        std::cerr << + "'" + createDatabaseStatement.getName() + "' database - create: " + e.what() << std::endl;
     }
 }
 
@@ -128,6 +128,6 @@ void QueryPreparer::prepareCreateTableQuery(CreateTableStatement createTableStat
     try {
         QueryValidator::validateCreateTableQuery(createTableStatement, dbName);
     } catch (const std::exception& e) {
-        std::cerr << + "'" + dbName + "' database: " + e.what() << std::endl;
+        std::cerr << + "'" + dbName + "' database - create: " + e.what() << std::endl;
     }
 }
