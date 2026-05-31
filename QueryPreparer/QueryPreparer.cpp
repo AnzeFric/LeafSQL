@@ -7,6 +7,7 @@
 #include <fstream>
 #include <stdexcept>
 #include <algorithm>
+#include <iostream>
 
 std::vector<std::string> getFilePathData(const std::string& tableName, const std::string& dbName) {
     const std::string dirPathStr = "data/" + dbName + "/" + tableName + "/";
@@ -63,7 +64,11 @@ void QueryPreparer::prepareSelectQuery(SelectFromStatement selectFromStatement, 
         selectFromStatement.setColumns(tableColumns);
     }
 
-    QueryValidator::validateSelectQuery(selectFromStatement);
+    try {
+        QueryValidator::validateSelectQuery(selectFromStatement);
+    } catch (const std::exception& e) {
+        std::cerr << + "'" + tableName + "' table: " + e.what() << std::endl;
+    }
 }
 
 void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement, const std::string& dbName) {
@@ -99,7 +104,11 @@ void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement, 
         }
     }
 
-    QueryValidator::validateInsertQuery(dataFile, tableColumns, tableAttributes, insertColumns, insertValues);
+    try {
+        QueryValidator::validateInsertQuery(dataFile, tableColumns, tableAttributes, insertColumns, insertValues);
+    } catch (const std::exception& e) {
+        std::cerr << + "'" + tableName + "' table: " + e.what() << std::endl;
+    }
 
     dataFile.close();
 }
@@ -108,9 +117,17 @@ void QueryPreparer::prepareUpdateQuery(UpdateStatement updateStatement) {}
 void QueryPreparer::prepareDeleteQuery(DeleteFromStatement deleteFromStatement) {}
 
 void QueryPreparer::prepareCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement) {
+    try {
     QueryValidator::validateCreateDatabaseQuery(createDatabaseStatement);
+    } catch (const std::exception& e) {
+        std::cerr << + "'" + createDatabaseStatement.getName() + "' database: " + e.what() << std::endl;
+    }
 }
 
 void QueryPreparer::prepareCreateTableQuery(CreateTableStatement createTableStatement, const std::string& dbName) {
-    QueryValidator::validateCreateTableQuery(createTableStatement, dbName);
+    try {
+        QueryValidator::validateCreateTableQuery(createTableStatement, dbName);
+    } catch (const std::exception& e) {
+        std::cerr << + "'" + dbName + "' database: " + e.what() << std::endl;
+    }
 }
