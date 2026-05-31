@@ -7,7 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include <variant>
+#include <utility>
 
 #include "../QueryExecutor/QueryExecutor.h"
 #include "DataType/DataType.h"
@@ -28,7 +28,7 @@ void strToUpper(std::string& str) {
     }
 }
 
-bool isValidValue(std::string value, DataType::Type type) {
+bool isValidValue(std::string value, const DataType::Type type) {
     switch(type) {
         case DataType::INT:
             try {
@@ -97,7 +97,7 @@ void validateInputToDefinition(const std::vector<std::string>& tableColumns, con
 }
 
 void QueryValidator::validateSelectQuery(SelectFromStatement selectFromStatement) {
-    QueryExecutor::executeSelectQuery(selectFromStatement);
+    QueryExecutor::executeSelectQuery(std::move(selectFromStatement));
 }
 
 void QueryValidator::validateInsertQuery(std::fstream& dataFile, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
@@ -110,8 +110,9 @@ void QueryValidator::validateInsertQuery(std::fstream& dataFile, const std::vect
     }
 
     // Check for existence of identical primary key as we do not automatically increment
-    int insertPrimaryKeyIndex = -1;
     if (!tableAttributes[primaryKeyIndex].find("AUTO")) {
+        int insertPrimaryKeyIndex = -1;
+
         // Check if primary key was provided
         for (int i = 0; i < insertColumns.size(); i++) {
             if (insertColumns[i] == tableColumns[primaryKeyIndex]) {
@@ -159,10 +160,10 @@ void QueryValidator::validateDeleteQuery(DeleteFromStatement deleteFromStatement
 
 // TODO: Validate input
 void QueryValidator::validateCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement) {
-    QueryExecutor::executeCreateDatabaseQuery(createDatabaseStatement);
+    QueryExecutor::executeCreateDatabaseQuery(std::move(createDatabaseStatement));
 }
 
 // TODO: Validate input
 void QueryValidator::validateCreateTableQuery(CreateTableStatement createTableStatement, const std::string& dbName) {
-    QueryExecutor::executeCreateTableQuery(createTableStatement, dbName);
+    QueryExecutor::executeCreateTableQuery(std::move(createTableStatement), dbName);
 }
