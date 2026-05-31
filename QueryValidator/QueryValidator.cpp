@@ -7,6 +7,8 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <variant>
+
 #include "../QueryExecutor/QueryExecutor.h"
 #include "DataType/DataType.h"
 
@@ -60,6 +62,11 @@ void validateInputToDefinition(const std::vector<std::string>& tableColumns, con
             if (insertColumns[insertIndex] == tableColumns[currentIndex]) {
                 break;
             }
+        }
+
+        // Skip other checks if the value is NULL and is allowed
+        if (tableAttributes[currentIndex].find("NULL") != std::string::npos && insertValues[insertIndex] == "NULL") {
+            continue;
         }
 
         std::stringstream ss(tableAttributes[currentIndex]);

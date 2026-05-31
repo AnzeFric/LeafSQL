@@ -100,7 +100,7 @@ void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement, 
         // Column not inserted, check if it's NULL
         if (!foundColumn && tableAttributes[columnIndex].find("NULL") != std::string::npos) {
             insertColumns.push_back(tableColumns[columnIndex]);
-            insertValues.push_back(", NULL");
+            insertValues.push_back("NULL");
         }
     }
 
