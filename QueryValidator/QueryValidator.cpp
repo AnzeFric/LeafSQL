@@ -3,6 +3,8 @@
 //
 
 #include "QueryValidator.h"
+
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -17,6 +19,7 @@ int getPrimaryKeyColumnIndex(const std::vector<std::string>& tableAttributes) {
     for (int i = 0; i < tableAttributes.size(); i++ ) {
         if (tableAttributes[i].find("PRIMARY")) {
             primaryKeyIndex = i;
+            break;
         }
     }
     return primaryKeyIndex;
@@ -158,8 +161,16 @@ void QueryValidator::validateUpdateQuery(UpdateStatement updateStatement) {}
 
 void QueryValidator::validateDeleteQuery(DeleteFromStatement deleteFromStatement) {}
 
-// TODO: Validate input
 void QueryValidator::validateCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement) {
+    const std::string dbName = createDatabaseStatement.getName();
+    if (dbName.length() < 1 || dbName.length() > 63) {
+        throw std::runtime_error("Database name length is incorrect! Min length is 1 char and max length is 63 chars.");
+    }
+
+    if (std::ranges::find_if(dbName, isspace) != dbName.end()) {
+        throw std::runtime_error("Database name contains not allowed whitespace! Use underscores.");
+    }
+
     QueryExecutor::executeCreateDatabaseQuery(std::move(createDatabaseStatement));
 }
 

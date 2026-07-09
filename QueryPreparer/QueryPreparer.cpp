@@ -118,7 +118,7 @@ void QueryPreparer::prepareDeleteQuery(DeleteFromStatement deleteFromStatement) 
 
 void QueryPreparer::prepareCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement) {
     try {
-    QueryValidator::validateCreateDatabaseQuery(createDatabaseStatement);
+        QueryValidator::validateCreateDatabaseQuery(createDatabaseStatement);
     } catch (const std::exception& e) {
         std::cerr << + "'" + createDatabaseStatement.getName() + "' database - create: " + e.what() << std::endl;
     }
