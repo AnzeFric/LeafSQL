@@ -27,14 +27,14 @@ void CreateTableStatement::setAttributes(std::vector<std::vector<std::string>> _
         this->attributes = std::move(_attributes);
 };
 
-std::string CreateTableStatement::getName() {
-        return std::move(this->name);
+std::string CreateTableStatement::getName() const {
+        return this->name;
 }
 
-std::vector<std::string> CreateTableStatement::getColumns() {
-        return std::move(this->columns);
+std::vector<std::string> CreateTableStatement::getColumns() const {
+        return this->columns;
 };
 
-std::vector<std::vector<std::string>> CreateTableStatement::getAttributes() {
-        return std::move(this->attributes);
+std::vector<std::vector<std::string>> CreateTableStatement::getAttributes() const {
+        return this->attributes;
 };

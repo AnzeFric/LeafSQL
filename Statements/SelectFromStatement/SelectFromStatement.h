@@ -18,8 +18,8 @@ public:
     void setTable(std::string _table);
     void setColumns(std::vector<std::string> _columns);
     void addColumn(std::string _column);
-    std::string getTable();
-    std::vector<std::string> getColumns();
+    [[nodiscard]] std::string getTable() const;
+    [[nodiscard]] std::vector<std::string> getColumns() const;
 };
 
 #endif //LEAFSQL_SELECTFROMSTATEMENT_H

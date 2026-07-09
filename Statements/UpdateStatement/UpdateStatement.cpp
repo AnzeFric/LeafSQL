@@ -19,14 +19,14 @@ void UpdateStatement::setValues(std::vector<std::string> _values) {
     this->values = std::move(_values);
 };
 
-std::string UpdateStatement::getTable() {
-    return std::move(this->table);
+std::string UpdateStatement::getTable() const{
+    return this->table;
 };
 
-std::vector<std::string> UpdateStatement::getColumns() {
-    return std::move(this->columns);
+std::vector<std::string> UpdateStatement::getColumns() const{
+    return this->columns;
 };
 
-std::vector<std::string> UpdateStatement::getValues() {
-    return std::move(this->values);
+std::vector<std::string> UpdateStatement::getValues() const {
+    return this->values;
 };

@@ -11,6 +11,6 @@ void CreateDatabaseStatement::setName(std::string _name) {
     this->name = std::move(_name);
 };
 
-std::string CreateDatabaseStatement::getName() {
+std::string CreateDatabaseStatement::getName() const {
     return this->name;
 };

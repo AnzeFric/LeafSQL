@@ -19,9 +19,9 @@ public:
     void setTable(std::string _table);
     void setColumns(std::vector<std::string> _columns);
     void setValues(std::vector<std::string> _values);
-    std::string getTable();
-    std::vector<std::string> getColumns();
-    std::vector<std::string> getValues();
+    [[nodiscard]] std::string getTable() const;
+    [[nodiscard]] std::vector<std::string> getColumns() const;
+    [[nodiscard]] std::vector<std::string> getValues() const;
 };
 
 #endif //LEAFSQL_INSERTINTOSTATEMENT_H

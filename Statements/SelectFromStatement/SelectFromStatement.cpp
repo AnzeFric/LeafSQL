@@ -20,10 +20,10 @@ void SelectFromStatement::addColumn(std::string _column) {
     this->columns.push_back(std::move(_column));
 }
 
-std::string SelectFromStatement::getTable() {
-    return std::move(this->table);
+std::string SelectFromStatement::getTable() const {
+    return this->table;
 };
 
-std::vector<std::string> SelectFromStatement::getColumns() {
-    return std::move(this->columns);
+std::vector<std::string> SelectFromStatement::getColumns() const {
+    return this->columns;
 };

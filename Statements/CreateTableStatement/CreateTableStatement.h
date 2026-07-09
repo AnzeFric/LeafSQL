@@ -21,9 +21,9 @@ public:
     void setAttributes(std::vector<std::vector<std::string>> _attributes);
     void addColumn(std::string column);
     void addAttribute(std::vector<std::string> attribute);
-    std::string getName();
-    std::vector<std::string> getColumns();
-    std::vector<std::vector<std::string>> getAttributes();
+    [[nodiscard]] std::string getName() const ;
+    [[nodiscard]] std::vector<std::string> getColumns() const;
+    [[nodiscard]] std::vector<std::vector<std::string>> getAttributes() const;
 };
 
 #endif //LEAFSQL_CREATETABLESTATEMENT_H

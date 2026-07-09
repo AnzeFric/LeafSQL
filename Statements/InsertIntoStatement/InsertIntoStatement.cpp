@@ -19,14 +19,14 @@ void InsertIntoStatement::setValues(std::vector<std::string> _values) {
     this->values = std::move(_values);
 };
 
-std::string InsertIntoStatement::getTable() {
-    return std::move(this->table);
+std::string InsertIntoStatement::getTable() const {
+    return this->table;
 };
 
-std::vector<std::string> InsertIntoStatement::getColumns() {
-    return std::move(this->columns);
+std::vector<std::string> InsertIntoStatement::getColumns() const {
+    return this->columns;
 };
 
-std::vector<std::string> InsertIntoStatement::getValues() {
-    return std::move(this->values);
+std::vector<std::string> InsertIntoStatement::getValues() const {
+    return this->values;
 };

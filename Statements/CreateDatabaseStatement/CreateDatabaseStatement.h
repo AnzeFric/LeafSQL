@@ -14,7 +14,7 @@ public:
     CreateDatabaseStatement() = default;
     explicit CreateDatabaseStatement(std::string _name);
     void setName(std::string _name);
-    std::string getName();
+    [[nodiscard]] std::string getName() const;
 };
 
 #endif //LEAFSQL_CREATEDATABASESTATEMENT_H

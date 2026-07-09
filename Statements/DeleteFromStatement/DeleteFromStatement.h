@@ -14,7 +14,7 @@ public:
     DeleteFromStatement() = default;
     explicit DeleteFromStatement(std::string _table);
     void setTable(std::string _table);
-    std::string getTable();
+    [[nodiscard]] std::string getTable() const;
 };
 
 
