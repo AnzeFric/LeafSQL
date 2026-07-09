@@ -19,8 +19,8 @@ public:
     static void prepareInsertQuery(InsertIntoStatement insertIntoStatement, const std::string& dbName);
     static void prepareUpdateQuery(UpdateStatement updateStatement);
     static void prepareDeleteQuery(DeleteFromStatement deleteFromStatement);
-    static void prepareCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement);
-    static void prepareCreateTableQuery(CreateTableStatement createTableStatement, const std::string& dbName);
+    static void prepareCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement);
+    static void prepareCreateTableQuery(const CreateTableStatement& createTableStatement, const std::string& dbName);
 };
 
 

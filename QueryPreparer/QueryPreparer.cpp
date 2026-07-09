@@ -64,6 +64,7 @@ void QueryPreparer::prepareSelectQuery(SelectFromStatement selectFromStatement, 
     }
 }
 
+// TODO: Get the dataFile variable into the QueryExecutor class, so it is not transfered via refference so much
 void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement, const std::string& dbName) {
     const std::string tableName = insertIntoStatement.getTable();
     const std::vector<std::string> filePaths = getDefinitionFilePaths(tableName, dbName);
@@ -112,7 +113,7 @@ void QueryPreparer::prepareUpdateQuery(UpdateStatement updateStatement) {}
 // TODO: Make prepare delete query
 void QueryPreparer::prepareDeleteQuery(DeleteFromStatement deleteFromStatement) {}
 
-void QueryPreparer::prepareCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement) {
+void QueryPreparer::prepareCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement) {
     try {
         QueryValidator::validateCreateDatabaseQuery(createDatabaseStatement);
     } catch (const std::exception& e) {
@@ -120,7 +121,7 @@ void QueryPreparer::prepareCreateDatabaseQuery(CreateDatabaseStatement createDat
     }
 }
 
-void QueryPreparer::prepareCreateTableQuery(CreateTableStatement createTableStatement, const std::string& dbName) {
+void QueryPreparer::prepareCreateTableQuery(const CreateTableStatement& createTableStatement, const std::string& dbName) {
     try {
         QueryValidator::validateCreateTableQuery(createTableStatement, dbName);
     } catch (const std::exception& e) {
