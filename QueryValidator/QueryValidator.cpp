@@ -174,7 +174,19 @@ void QueryValidator::validateCreateDatabaseQuery(CreateDatabaseStatement createD
     QueryExecutor::executeCreateDatabaseQuery(std::move(createDatabaseStatement));
 }
 
-// TODO: Validate input
 void QueryValidator::validateCreateTableQuery(CreateTableStatement createTableStatement, const std::string& dbName) {
+    const std::string tableName = createTableStatement.getName();
+    if (tableName.length() < 1 || tableName.length() > 63) {
+        throw std::runtime_error("Table name length is incorrect! Min length is 1 char and max length is 63 chars.");
+    }
+
+    if (std::ranges::find_if(tableName, isspace) != tableName.end()) {
+        throw std::runtime_error("Table name contains not allowed whitespace! Use underscores.");
+    }
+
+    if (createTableStatement.getAttributes().size() == 0  || createTableStatement.getColumns().size() == 0) {
+        throw std::runtime_error("No columns or attributes set for table: " + tableName);
+    }
+
     QueryExecutor::executeCreateTableQuery(std::move(createTableStatement), dbName);
 }
