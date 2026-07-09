@@ -113,7 +113,10 @@ void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement, 
     dataFile.close();
 }
 
+// TODO: Make prepare update query
 void QueryPreparer::prepareUpdateQuery(UpdateStatement updateStatement) {}
+
+// TODO: Make prepare delete query
 void QueryPreparer::prepareDeleteQuery(DeleteFromStatement deleteFromStatement) {}
 
 void QueryPreparer::prepareCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement) {

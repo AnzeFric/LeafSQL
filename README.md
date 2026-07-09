@@ -78,3 +78,7 @@ CREATE TABLE users (
     is_active BOOLEAN DEFAULT TRUE
 );
 ```
+**Limits:**
+- Name cannot contain whitespace - use underscores
+- The name has to be between 1 and 63 chars.
+- Name has to be unique. A database with the same name cannot be created.

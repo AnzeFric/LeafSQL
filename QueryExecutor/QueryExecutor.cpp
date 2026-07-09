@@ -45,8 +45,10 @@ void QueryExecutor::executeInsertQuery(std::fstream& dataFile, const std::vector
     dataFile << insertValue << "\n";
 };
 
+// TODO: Make execute update query
 void QueryExecutor::executeUpdateQuery(UpdateStatement updateStatement) {};
 
+// TODO: Make execute delete query
 void QueryExecutor::executeDeleteQuery(DeleteFromStatement deleteFromStatement) {};
 
 void QueryExecutor::executeCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement) {

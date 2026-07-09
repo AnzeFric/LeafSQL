@@ -99,6 +99,7 @@ void validateInputToDefinition(const std::vector<std::string>& tableColumns, con
     }
 }
 
+// TODO: Add select validation
 void QueryValidator::validateSelectQuery(SelectFromStatement selectFromStatement) {
     QueryExecutor::executeSelectQuery(std::move(selectFromStatement));
 }
@@ -157,8 +158,10 @@ void QueryValidator::validateInsertQuery(std::fstream& dataFile, const std::vect
     QueryExecutor::executeInsertQuery(dataFile, tableColumns, tableAttributes, insertColumns, insertValues);
 }
 
+// TODO: Add update validation
 void QueryValidator::validateUpdateQuery(UpdateStatement updateStatement) {}
 
+// TODO: Add delete validation
 void QueryValidator::validateDeleteQuery(DeleteFromStatement deleteFromStatement) {}
 
 void QueryValidator::validateCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement) {
