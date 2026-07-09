@@ -41,12 +41,19 @@ void parseSelectQuery (Lexer& lexer, const std::string& dbName) {
     // Columns - Loop until next Keyword -> FROM
     Token token = lexer.nextToken();
 
+    // Either * (TokenType::Everything) or the first column
+    selectFromStatement.addColumn(token.getValue());
+
     if (token.getType() == TokenType::Everything) {
-        selectFromStatement.addColumn(token.getValue());
+        // FROM
+        lexer.nextToken();
     } else {
-        while (token.getType() != TokenType::Keyword) {
-            selectFromStatement.addColumn(token.getValue());
+        // Skip the comma until FROM
+        while (lexer.nextToken().getType() != TokenType::Keyword) {
+            // Next column name
             token = lexer.nextToken();
+
+            selectFromStatement.addColumn(token.getValue());
         }
     }
 
