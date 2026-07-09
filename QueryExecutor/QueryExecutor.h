@@ -16,11 +16,11 @@ class QueryExecutor {
 public:
     QueryExecutor() = default;
     static void executeSelectQuery(SelectFromStatement selectFromStatement);
-    static void executeInsertQuery( std::fstream& dataFile,
-                                    const std::vector<std::string>& tableColumns,
-                                    const std::vector<std::string>& tableAttributes,
-                                    const std::vector<std::string>& insertColumns,
-                                    const std::vector<std::string>& insertValues);
+    static void executeInsertQuery(std::fstream& dataFile,
+                                   const std::vector<std::string>& tableColumns,
+                                   const std::vector<std::string>& tableAttributes,
+                                   const std::vector<std::string>& insertColumns,
+                                   const std::vector<std::string>& insertValues);
     static void executeUpdateQuery(UpdateStatement updateStatement);
     static void executeDeleteQuery(DeleteFromStatement deleteFromStatement);
     static void executeCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement);
