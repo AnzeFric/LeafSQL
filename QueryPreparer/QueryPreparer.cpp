@@ -62,6 +62,9 @@ void QueryPreparer::prepareSelectQuery(SelectFromStatement selectFromStatement, 
             }
         }
         selectFromStatement.setColumns(tableColumns);
+    } else {
+        // User requested all columns - '*'
+        selectFromStatement.setColumns(tableColumns);
     }
 
     try {
@@ -131,6 +134,6 @@ void QueryPreparer::prepareCreateTableQuery(CreateTableStatement createTableStat
     try {
         QueryValidator::validateCreateTableQuery(createTableStatement, dbName);
     } catch (const std::exception& e) {
-        std::cerr << + "'" + dbName + "' database - create: " + e.what() << std::endl;
+        std::cerr << + "Database: '" + dbName + "', Table: '" + createTableStatement.getName() + "' - create: " + e.what() << std::endl;
     }
 }
