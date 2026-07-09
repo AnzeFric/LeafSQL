@@ -57,11 +57,15 @@ void QueryExecutor::executeCreateDatabaseQuery(CreateDatabaseStatement createDat
 
     const fs::path dbPath = fs::path(dbPathStr);
 
+    if (fs::exists(dbPath)) {
+        throw std::runtime_error("Database " + dbName + " already exists (on path: " + dbPathStr + ")");
+    }
+
     try {
         fs::create_directories(dbPath);
     } catch (const fs::filesystem_error& e) {
         throw std::runtime_error(
-            "Could not create database directory (on path: " + dbPathStr + "):  " + std::string(e.what())
+            "Could not create database directory (on path: " + dbPathStr + "): " + std::string(e.what())
         );
     }
 };
