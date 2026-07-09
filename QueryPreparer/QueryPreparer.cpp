@@ -4,12 +4,12 @@
 
 #include "QueryPreparer.h"
 #include "../QueryValidator/QueryValidator.h"
+#include <algorithm>
 #include <fstream>
 #include <stdexcept>
-#include <algorithm>
 #include <iostream>
 
-std::vector<std::string> getFilePathData(const std::string& tableName, const std::string& dbName) {
+std::vector<std::string> getDefinitionFilePaths(const std::string& tableName, const std::string& dbName) {
     const std::string dirPathStr = "data/" + dbName + "/" + tableName + "/";
 
     const std::string tableDataStr = dirPathStr + tableName + "_data.csv";
@@ -37,35 +37,25 @@ std::vector<std::string> getFileContents(const std::string& filePath) {
     return columns;
 }
 
-/*
- * 1. Get the metadata of the table
- * 2. Get user input
- * 3. Delete locally stored columns that the user did not request.
- *    We do this so that only existing columns can be requested.
- */
 void QueryPreparer::prepareSelectQuery(SelectFromStatement selectFromStatement, const std::string& dbName) {
     const std::string tableName = selectFromStatement.getTable();
-    const std::vector<std::string> filePathData = getFilePathData(tableName, dbName);
+    const std::vector<std::string> filePaths = getDefinitionFilePaths(tableName, dbName);
 
-    // Get table columns, table data and user requested columns
-    std::vector<std::string> tableColumns = getFileContents(filePathData[0]);
-    const std::vector<std::string> tableData = getFileContents(filePathData[2]);
-    std::vector<std::string> userColumns = selectFromStatement.getColumns();
+    // Get table columns
+    std::vector<std::string> tableColumns = getFileContents(filePaths[0]);
 
-    // Delete columns in tableColumns that the user did not request
+    // User did not request all columns - '*'
     if (selectFromStatement.getColumns().front() != "*") {
-        for (auto it = tableColumns.begin(); it != tableColumns.end();) {
-            if (std::ranges::find(userColumns, *it) != userColumns.end()) {
-                ++it;
-            } else {
-                it = tableColumns.erase(it);
-            }
-        }
-        selectFromStatement.setColumns(tableColumns);
-    } else {
-        // User requested all columns - '*'
-        selectFromStatement.setColumns(tableColumns);
+        // Get user requested columns
+        const std::vector<std::string> userColumns = selectFromStatement.getColumns();
+
+        // Only keep the user requested columns that match the definition in tableColumns
+        std::erase_if(tableColumns, [&userColumns](const std::string& item) {
+            return std::ranges::find(userColumns, item) == userColumns.end();
+        });
     }
+
+    selectFromStatement.setColumns(tableColumns);
 
     try {
         QueryValidator::validateSelectQuery(selectFromStatement);
@@ -76,17 +66,17 @@ void QueryPreparer::prepareSelectQuery(SelectFromStatement selectFromStatement, 
 
 void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement, const std::string& dbName) {
     const std::string tableName = insertIntoStatement.getTable();
-    const std::vector<std::string> filePathData = getFilePathData(tableName, dbName);
+    const std::vector<std::string> filePaths = getDefinitionFilePaths(tableName, dbName);
 
     // Get table definition values
-    const std::vector<std::string> tableColumns = getFileContents(filePathData[0]);
-    const std::vector<std::string> tableAttributes = getFileContents(filePathData[1]);
+    const std::vector<std::string> tableColumns = getFileContents(filePaths[0]);
+    const std::vector<std::string> tableAttributes = getFileContents(filePaths[1]);
 
     // Get user insert values
     std::vector<std::string> insertColumns = insertIntoStatement.getColumns();
     std::vector<std::string> insertValues = insertIntoStatement.getValues();
 
-    std::fstream dataFile(filePathData[2], std::ios::out | std::ios::app);
+    std::fstream dataFile(filePaths[2], std::ios::out | std::ios::app);
     if (!dataFile.is_open()) {
         throw std::runtime_error("Failed to open table: " + tableName);
     }
