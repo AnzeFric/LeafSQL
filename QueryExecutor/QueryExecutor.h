@@ -23,8 +23,8 @@ public:
                                    const std::vector<std::string>& insertValues);
     static void executeUpdateQuery(UpdateStatement updateStatement);
     static void executeDeleteQuery(DeleteFromStatement deleteFromStatement);
-    static void executeCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement);
-    static void executeCreateTableQuery(CreateTableStatement createTableStatement, const std::string& dbName);
+    static void executeCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement);
+    static void executeCreateTableQuery(const CreateTableStatement& createTableStatement, const std::string& dbName);
 };
 
 #endif //LEAFSQL_QUERYEXECUTOR_H

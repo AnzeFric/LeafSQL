@@ -55,7 +55,7 @@ void QueryExecutor::executeUpdateQuery(UpdateStatement updateStatement) {};
 // TODO: Make execute delete query
 void QueryExecutor::executeDeleteQuery(DeleteFromStatement deleteFromStatement) {};
 
-void QueryExecutor::executeCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement) {
+void QueryExecutor::executeCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement) {
     const std::string dbName = createDatabaseStatement.getName();
     const std::string dbPathStr = "data/" + dbName;
 
@@ -76,7 +76,7 @@ void QueryExecutor::executeCreateDatabaseQuery(CreateDatabaseStatement createDat
     }
 };
 
-void QueryExecutor::executeCreateTableQuery(CreateTableStatement createTableStatement, const std::string& dbName) {
+void QueryExecutor::executeCreateTableQuery(const CreateTableStatement& createTableStatement, const std::string& dbName) {
     const std::string tableName = createTableStatement.getName();
     auto columns = createTableStatement.getColumns();
     auto attributes = createTableStatement.getAttributes();
