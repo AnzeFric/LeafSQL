@@ -10,6 +10,7 @@
 #include "../Statements/DeleteFromStatement/DeleteFromStatement.h"
 #include "../Statements/CreateDatabaseStatement/CreateDatabaseStatement.h"
 #include "../Statements/CreateTableStatement/CreateTableStatement.h"
+#include  "../Statements/UseDatabaseStatement/UseDatabaseStatement.h"
 
 class QueryValidator {
 public:
@@ -24,6 +25,7 @@ public:
     static void validateDeleteQuery(DeleteFromStatement deleteFromStatement);
     static void validateCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement);
     static void validateCreateTableQuery(const CreateTableStatement& createTableStatement);
+    static void validateUseDatabaseQuery(const UseDatabaseStatement& useDatabaseStatement);
 };
 
 #endif //LEAFSQL_QUERYVALIDATOR_H

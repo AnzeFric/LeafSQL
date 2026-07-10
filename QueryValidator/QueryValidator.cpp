@@ -7,6 +7,7 @@
 #include "../QueryExecutor/QueryExecutor.h"
 #include "DataType/DataType.h"
 #include <algorithm>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -190,4 +191,16 @@ void QueryValidator::validateCreateTableQuery(const CreateTableStatement& create
     }
 
     QueryExecutor::executeCreateTableQuery(createTableStatement);
+}
+
+void QueryValidator::validateUseDatabaseQuery(const UseDatabaseStatement& useDatabaseStatement) {
+    const std::string dbName = useDatabaseStatement.getName();
+
+    namespace fs = std::filesystem;
+
+    if (!fs::exists("data/" + dbName + "/")) {
+        throw std::runtime_error("Database does not exist!");
+    }
+
+    QueryExecutor::executeUseDatabaseQuery(dbName);
 }
