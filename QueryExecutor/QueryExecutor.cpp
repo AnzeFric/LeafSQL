@@ -3,16 +3,18 @@
 //
 
 #include "QueryExecutor.h"
+#include "../Shared/Globals.h"
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
 #include <map>
 
-void QueryExecutor::executeSelectQuery(SelectFromStatement selectFromStatement) {
+void QueryExecutor::executeSelectQuery(const SelectFromStatement& selectFromStatement) {
     for (int i = 0; i < selectFromStatement.getColumns().size(); i++) {
         std::cout <<  selectFromStatement.getColumns()[i] << std::endl;
     }
+    std::cout << g_activeDbName << std::endl;
 };
 
 void QueryExecutor::executeInsertQuery(std::fstream& dataFile, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
@@ -76,12 +78,12 @@ void QueryExecutor::executeCreateDatabaseQuery(const CreateDatabaseStatement& cr
     }
 };
 
-void QueryExecutor::executeCreateTableQuery(const CreateTableStatement& createTableStatement, const std::string& dbName) {
+void QueryExecutor::executeCreateTableQuery(const CreateTableStatement& createTableStatement) {
     const std::string tableName = createTableStatement.getName();
     auto columns = createTableStatement.getColumns();
     auto attributes = createTableStatement.getAttributes();
 
-    const std::string dirPathStr = "data/" + dbName + "/" + tableName + "/";
+    const std::string dirPathStr = "data/" + g_activeDbName + "/" + tableName + "/";
     const std::string tableDataStr = dirPathStr + tableName + "_data.csv";
     const std::string tableColumnsStr = dirPathStr + tableName + "_columns.csv";
     const std::string tableAttributesStr = dirPathStr + tableName + "_attributes.csv";

@@ -15,7 +15,7 @@
 class QueryExecutor {
 public:
     QueryExecutor() = default;
-    static void executeSelectQuery(SelectFromStatement selectFromStatement);
+    static void executeSelectQuery(const SelectFromStatement& selectFromStatement);
     static void executeInsertQuery(std::fstream& dataFile,
                                    const std::vector<std::string>& tableColumns,
                                    const std::vector<std::string>& tableAttributes,
@@ -24,7 +24,7 @@ public:
     static void executeUpdateQuery(UpdateStatement updateStatement);
     static void executeDeleteQuery(DeleteFromStatement deleteFromStatement);
     static void executeCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement);
-    static void executeCreateTableQuery(const CreateTableStatement& createTableStatement, const std::string& dbName);
+    static void executeCreateTableQuery(const CreateTableStatement& createTableStatement);
 };
 
 #endif //LEAFSQL_QUERYEXECUTOR_H
