@@ -34,4 +34,6 @@ add_executable(LeafSQL main.cpp
         QueryPreparer/QueryPreparer.cpp
         QueryPreparer/QueryPreparer.h
         main.cpp
+        Shared/Globals.cpp
+        Shared/Globals.h
 )
