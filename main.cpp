@@ -6,10 +6,21 @@ int main() {
     const std::string useDBQuery = "USE LeafDB;";
     const std::string createTableQuery = "CREATE TABLE users (id INT PRIMARY AUTO, username TEXT UNIQUE, email TEXT UNIQUE, age NULL INT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, is_active BOOLEAN DEFAULT TRUE);";
     const std::string insertQuery = "INSERT INTO users (id, username, email, age, created_at, is_active) VALUES (1, Alice, alice@example.com, 1, NOW(), true);";
-    const std::string selectQuery = "SELECT id, username FROM users;";
+    const std::string selectQuery = "SELECT id, age, 123, email, username FROM users;";
     const std::string selectAllQuery = "SELECT * FROM users;";
 
-    QueryParser queryParser = QueryParser(createDBQuery);
+    try {
+        QueryParser queryParser = QueryParser(useDBQuery);
+        queryParser.parseQuery();
+
+        queryParser.setQuery(selectQuery);
+        queryParser.parseQuery();
+
+    } catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    /*QueryParser queryParser = QueryParser(createDBQuery);
     queryParser.parseQuery();
 
     queryParser.setQuery(useDBQuery);
@@ -25,7 +36,7 @@ int main() {
     queryParser.parseQuery();
 
     queryParser.setQuery(selectQuery);
-    queryParser.parseQuery();
+    queryParser.parseQuery();*/
 
     return 0;
-}
+};

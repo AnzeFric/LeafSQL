@@ -36,4 +36,6 @@ add_executable(LeafSQL main.cpp
         main.cpp
         Shared/Globals.cpp
         Shared/Globals.h
+        Statements/UseDatabaseStatement/UseDatabaseStatement.cpp
+        Statements/UseDatabaseStatement/UseDatabaseStatement.h
 )
