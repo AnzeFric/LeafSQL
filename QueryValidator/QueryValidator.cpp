@@ -4,15 +4,13 @@
 
 #include "QueryValidator.h"
 
+#include "../QueryExecutor/QueryExecutor.h"
+#include "DataType/DataType.h"
 #include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include <utility>
-
-#include "../QueryExecutor/QueryExecutor.h"
-#include "DataType/DataType.h"
 
 int getPrimaryKeyColumnIndex(const std::vector<std::string>& tableAttributes) {
     int primaryKeyIndex = -1;
@@ -101,7 +99,7 @@ void validateInputToDefinition(const std::vector<std::string>& tableColumns, con
 
 // TODO: Add select validation
 void QueryValidator::validateSelectQuery(SelectFromStatement selectFromStatement) {
-    QueryExecutor::executeSelectQuery(std::move(selectFromStatement));
+    QueryExecutor::executeSelectQuery(selectFromStatement);
 }
 
 void QueryValidator::validateInsertQuery(std::fstream& dataFile, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
@@ -164,7 +162,7 @@ void QueryValidator::validateUpdateQuery(UpdateStatement updateStatement) {}
 // TODO: Add delete validation
 void QueryValidator::validateDeleteQuery(DeleteFromStatement deleteFromStatement) {}
 
-void QueryValidator::validateCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement) {
+void QueryValidator::validateCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement) {
     const std::string dbName = createDatabaseStatement.getName();
     if (dbName.length() < 1 || dbName.length() > 63) {
         throw std::runtime_error("Database name length is incorrect! Min length is 1 char and max length is 63 chars.");
@@ -174,10 +172,10 @@ void QueryValidator::validateCreateDatabaseQuery(CreateDatabaseStatement createD
         throw std::runtime_error("Database name contains not allowed whitespace! Use underscores.");
     }
 
-    QueryExecutor::executeCreateDatabaseQuery(std::move(createDatabaseStatement));
+    QueryExecutor::executeCreateDatabaseQuery(createDatabaseStatement);
 }
 
-void QueryValidator::validateCreateTableQuery(CreateTableStatement createTableStatement, const std::string& dbName) {
+void QueryValidator::validateCreateTableQuery(const CreateTableStatement& createTableStatement) {
     const std::string tableName = createTableStatement.getName();
     if (tableName.length() < 1 || tableName.length() > 63) {
         throw std::runtime_error("Table name length is incorrect! Min length is 1 char and max length is 63 chars.");
@@ -191,5 +189,5 @@ void QueryValidator::validateCreateTableQuery(CreateTableStatement createTableSt
         throw std::runtime_error("No columns or attributes set for table: " + tableName);
     }
 
-    QueryExecutor::executeCreateTableQuery(std::move(createTableStatement), dbName);
+    QueryExecutor::executeCreateTableQuery(createTableStatement);
 }

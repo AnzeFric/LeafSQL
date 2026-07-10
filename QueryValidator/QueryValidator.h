@@ -22,8 +22,8 @@ public:
                                     const std::vector<std::string>& insertValues);
     static void validateUpdateQuery(UpdateStatement updateStatement);
     static void validateDeleteQuery(DeleteFromStatement deleteFromStatement);
-    static void validateCreateDatabaseQuery(CreateDatabaseStatement createDatabaseStatement);
-    static void validateCreateTableQuery(CreateTableStatement createTableStatement, const std::string& dbName);
+    static void validateCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement);
+    static void validateCreateTableQuery(const CreateTableStatement& createTableStatement);
 };
 
 #endif //LEAFSQL_QUERYVALIDATOR_H
