@@ -25,6 +25,7 @@ public:
     static void executeDeleteQuery(DeleteFromStatement deleteFromStatement);
     static void executeCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement);
     static void executeCreateTableQuery(const CreateTableStatement& createTableStatement);
+    static void executeUseDatabaseQuery(const std::string& dbName);
 };
 
 #endif //LEAFSQL_QUERYEXECUTOR_H

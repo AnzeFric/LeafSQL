@@ -143,3 +143,7 @@ void QueryExecutor::executeCreateTableQuery(const CreateTableStatement& createTa
 
     dataFile.close();
 };
+
+void QueryExecutor::executeUseDatabaseQuery(const std::string& dbName) {
+    g_activeDbName = dbName;
+}
