@@ -4,13 +4,14 @@
 
 #include "QueryPreparer.h"
 #include "../QueryValidator/QueryValidator.h"
+#include "../Shared/Globals.h"
 #include <algorithm>
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
 
-std::vector<std::string> getDefinitionFilePaths(const std::string& tableName, const std::string& dbName) {
-    const std::string dirPathStr = "data/" + dbName + "/" + tableName + "/";
+std::vector<std::string> getDefinitionFilePaths(const std::string& tableName) {
+    const std::string dirPathStr = "data/" + g_activeDbName + "/" + tableName + "/";
 
     const std::string tableDataStr = dirPathStr + tableName + "_data.csv";
     const std::string tableColumnsStr = dirPathStr + tableName + "_columns.csv";
@@ -37,9 +38,9 @@ std::vector<std::string> getFileContents(const std::string& filePath) {
     return columns;
 }
 
-void QueryPreparer::prepareSelectQuery(SelectFromStatement selectFromStatement, const std::string& dbName) {
+void QueryPreparer::prepareSelectQuery(SelectFromStatement selectFromStatement) {
     const std::string tableName = selectFromStatement.getTable();
-    const std::vector<std::string> filePaths = getDefinitionFilePaths(tableName, dbName);
+    const std::vector<std::string> filePaths = getDefinitionFilePaths(tableName);
 
     // Get table columns
     std::vector<std::string> tableColumns = getFileContents(filePaths[0]);
@@ -65,9 +66,9 @@ void QueryPreparer::prepareSelectQuery(SelectFromStatement selectFromStatement, 
 }
 
 // TODO: Get the dataFile variable into the QueryExecutor class, so it is not transfered via refference so much
-void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement, const std::string& dbName) {
+void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement) {
     const std::string tableName = insertIntoStatement.getTable();
-    const std::vector<std::string> filePaths = getDefinitionFilePaths(tableName, dbName);
+    const std::vector<std::string> filePaths = getDefinitionFilePaths(tableName);
 
     // Get table definition values
     const std::vector<std::string> tableColumns = getFileContents(filePaths[0]);
@@ -121,10 +122,10 @@ void QueryPreparer::prepareCreateDatabaseQuery(const CreateDatabaseStatement& cr
     }
 }
 
-void QueryPreparer::prepareCreateTableQuery(const CreateTableStatement& createTableStatement, const std::string& dbName) {
+void QueryPreparer::prepareCreateTableQuery(const CreateTableStatement& createTableStatement) {
     try {
-        QueryValidator::validateCreateTableQuery(createTableStatement, dbName);
+        QueryValidator::validateCreateTableQuery(createTableStatement);
     } catch (const std::exception& e) {
-        std::cerr << + "Database: '" + dbName + "', Table: '" + createTableStatement.getName() + "' - create: " + e.what() << std::endl;
+        std::cerr << + "Database: '" + g_activeDbName + "', Table: '" + createTableStatement.getName() + "' - create: " + e.what() << std::endl;
     }
 }

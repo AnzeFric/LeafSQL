@@ -15,12 +15,12 @@
 class QueryPreparer {
 public:
     QueryPreparer() = default;
-    static void prepareSelectQuery(SelectFromStatement selectFromStatement, const std::string& dbName);
-    static void prepareInsertQuery(InsertIntoStatement insertIntoStatement, const std::string& dbName);
+    static void prepareSelectQuery(SelectFromStatement selectFromStatement);
+    static void prepareInsertQuery(InsertIntoStatement insertIntoStatement);
     static void prepareUpdateQuery(UpdateStatement updateStatement);
     static void prepareDeleteQuery(DeleteFromStatement deleteFromStatement);
     static void prepareCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement);
-    static void prepareCreateTableQuery(const CreateTableStatement& createTableStatement, const std::string& dbName);
+    static void prepareCreateTableQuery(const CreateTableStatement& createTableStatement);
 };
 
 
