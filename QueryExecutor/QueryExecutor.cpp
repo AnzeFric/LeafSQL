@@ -10,11 +10,38 @@
 #include <iostream>
 #include <map>
 
-void QueryExecutor::executeSelectQuery(const SelectFromStatement& selectFromStatement) {
-    for (int i = 0; i < selectFromStatement.getColumns().size(); i++) {
-        std::cout <<  selectFromStatement.getColumns()[i] << std::endl;
+std::vector<std::string> splitCsvLine(const std::string& line, const char delimiter = ',') {
+    std::vector<std::string> fields;
+    std::stringstream ss(line);
+    std::string field;
+
+    while (std::getline(ss, field, delimiter)) {
+        fields.push_back(field);
     }
-    std::cout << g_activeDbName << std::endl;
+
+    return fields;
+}
+
+void QueryExecutor::executeSelectQuery(const std::vector<int>& columnIndexes, const std::string& tableName) {
+    std::ifstream file("data/" + g_activeDbName + "/" + tableName + "/" + tableName + "_data.csv");
+    std::string line;
+
+    while (std::getline(file, line)) {
+        std::vector<std::string> fields = splitCsvLine(line);
+
+        for (int i = 0; i < columnIndexes.size(); ++i) {
+            const int column = columnIndexes[i];
+
+            if (column < fields.size()) {
+                std::cout << fields[column];
+
+                if (i != columnIndexes.size() - 1) {
+                    std::cout << ",";
+                }
+            }
+        }
+        std::cout << std::endl;
+    }
 };
 
 void QueryExecutor::executeInsertQuery(std::fstream& dataFile, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
