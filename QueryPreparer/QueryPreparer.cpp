@@ -9,6 +9,7 @@
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
+#include <numeric>
 
 std::vector<std::string> getDefinitionFilePaths(const std::string& tableName) {
     const std::string dirPathStr = "data/" + g_activeDbName + "/" + tableName + "/";
@@ -38,28 +39,35 @@ std::vector<std::string> getFileContents(const std::string& filePath) {
     return columns;
 }
 
-void QueryPreparer::prepareSelectQuery(SelectFromStatement selectFromStatement) {
+void QueryPreparer::prepareSelectQuery(const SelectFromStatement& selectFromStatement) {
     const std::string tableName = selectFromStatement.getTable();
     const std::vector<std::string> filePaths = getDefinitionFilePaths(tableName);
 
     // Get table columns
-    std::vector<std::string> tableColumns = getFileContents(filePaths[0]);
+    const std::vector<std::string> tableColumns = getFileContents(filePaths[0]);
+    std::vector<int> columnIndexes(tableColumns.size());
 
-    // User did not request all columns - '*'
-    if (selectFromStatement.getColumns().front() != "*") {
-        // Get user requested columns
-        const std::vector<std::string> userColumns = selectFromStatement.getColumns();
+    // Get user requested columns
+    const std::vector<std::string> userColumns = selectFromStatement.getColumns();
 
-        // Only keep the user requested columns that match the definition in tableColumns
-        std::erase_if(tableColumns, [&userColumns](const std::string& item) {
-            return std::ranges::find(userColumns, item) == userColumns.end();
-        });
+    // IF - User requested all columns - '*'
+    // ELSE - User requested specific columns
+    if (userColumns.front() == "*") {
+        std::iota(columnIndexes.begin(), columnIndexes.end(), 0);
+    } else {
+        // Clear array from previous init with tableColumns.size()
+        columnIndexes.clear();
+
+        // Get indexes of columns that match definition
+        for (int i = 0; i < tableColumns.size(); i++) {
+            if (std::ranges::find(userColumns, tableColumns[i]) != userColumns.end()) {
+                columnIndexes.push_back(i);
+            }
+        }
     }
 
-    selectFromStatement.setColumns(tableColumns);
-
     try {
-        QueryValidator::validateSelectQuery(selectFromStatement);
+        QueryValidator::validateSelectQuery(columnIndexes, selectFromStatement.getTable());
     } catch (const std::exception& e) {
         throw std::runtime_error("SELECT FROM TABLE '" + tableName + "': " + e.what());
     }

@@ -16,7 +16,7 @@
 class QueryPreparer {
 public:
     QueryPreparer() = default;
-    static void prepareSelectQuery(SelectFromStatement selectFromStatement);
+    static void prepareSelectQuery(const SelectFromStatement& selectFromStatement);
     static void prepareInsertQuery(InsertIntoStatement insertIntoStatement);
     static void prepareUpdateQuery(UpdateStatement updateStatement);
     static void prepareDeleteQuery(DeleteFromStatement deleteFromStatement);
