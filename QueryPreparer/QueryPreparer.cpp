@@ -4,7 +4,7 @@
 
 #include "QueryPreparer.h"
 #include "../QueryValidator/QueryValidator.h"
-#include "../Shared/Globals.h"
+#include "../Shared/Globals/Globals.h"
 #include <algorithm>
 #include <fstream>
 #include <stdexcept>

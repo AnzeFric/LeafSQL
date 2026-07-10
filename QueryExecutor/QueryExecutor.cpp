@@ -3,7 +3,7 @@
 //
 
 #include "QueryExecutor.h"
-#include "../Shared/Globals.h"
+#include "../Shared/Globals/Globals.h"
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
