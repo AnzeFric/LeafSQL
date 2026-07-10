@@ -61,7 +61,7 @@ void QueryPreparer::prepareSelectQuery(SelectFromStatement selectFromStatement) 
     try {
         QueryValidator::validateSelectQuery(selectFromStatement);
     } catch (const std::exception& e) {
-        std::cerr << + "'" + tableName + "' table - select: " + e.what() << std::endl;
+        throw std::runtime_error("SELECT FROM TABLE '" + tableName + "': " + e.what());
     }
 }
 
@@ -102,7 +102,7 @@ void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement) 
     try {
         QueryValidator::validateInsertQuery(dataFile, tableColumns, tableAttributes, insertColumns, insertValues);
     } catch (const std::exception& e) {
-        std::cerr << + "'" + tableName + "' table - insert: " + e.what() << std::endl;
+        throw std::runtime_error("INSERT INTO TABLE '" + tableName + "': " + e.what());
     }
 
     dataFile.close();
@@ -118,7 +118,7 @@ void QueryPreparer::prepareCreateDatabaseQuery(const CreateDatabaseStatement& cr
     try {
         QueryValidator::validateCreateDatabaseQuery(createDatabaseStatement);
     } catch (const std::exception& e) {
-        std::cerr << + "'" + createDatabaseStatement.getName() + "' database - create: " + e.what() << std::endl;
+        throw std::runtime_error("CREATE DATABASE '" + createDatabaseStatement.getName() + "': " + e.what());
     }
 }
 
@@ -126,6 +126,14 @@ void QueryPreparer::prepareCreateTableQuery(const CreateTableStatement& createTa
     try {
         QueryValidator::validateCreateTableQuery(createTableStatement);
     } catch (const std::exception& e) {
-        std::cerr << + "Database: '" + g_activeDbName + "', Table: '" + createTableStatement.getName() + "' - create: " + e.what() << std::endl;
+        throw std::runtime_error("CREATE TABLE '" + createTableStatement.getName() + "': " + e.what());
     }
 }
+
+void QueryPreparer::prepareUseDatabaseQuery(const UseDatabaseStatement& useDatabaseStatement) {
+    try {
+        QueryValidator::validateUseDatabaseQuery(useDatabaseStatement);
+    } catch (const std::exception& e) {
+        throw std::runtime_error("USE DATABASE '" + useDatabaseStatement.getName() + "': " + e.what());
+    }
+};

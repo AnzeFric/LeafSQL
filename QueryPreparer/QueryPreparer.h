@@ -11,6 +11,7 @@
 #include "../Statements/DeleteFromStatement/DeleteFromStatement.h"
 #include "../Statements/CreateDatabaseStatement/CreateDatabaseStatement.h"
 #include "../Statements/CreateTableStatement/CreateTableStatement.h"
+#include "../Statements/UseDatabaseStatement/UseDatabaseStatement.h"
 
 class QueryPreparer {
 public:
@@ -21,6 +22,7 @@ public:
     static void prepareDeleteQuery(DeleteFromStatement deleteFromStatement);
     static void prepareCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement);
     static void prepareCreateTableQuery(const CreateTableStatement& createTableStatement);
+    static void prepareUseDatabaseQuery(const UseDatabaseStatement& useDatabaseStatement);
 };
 
 
