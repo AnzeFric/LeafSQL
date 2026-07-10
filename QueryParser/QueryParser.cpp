@@ -13,8 +13,8 @@
 #include "../Statements/InsertIntoStatement/InsertIntoStatement.h"
 #include "../Statements/CreateDatabaseStatement/CreateDatabaseStatement.h"
 #include "../Statements/CreateTableStatement/CreateTableStatement.h"
+#include "../Statements/UseDatabaseStatement/UseDatabaseStatement.h"
 #include "../Token/Token.h"
-#include "../Shared/Globals.h"
 
 QueryParser::QueryParser(std::string _query) : query(std::move(_query)) {}
 
@@ -23,10 +23,14 @@ void QueryParser::setQuery(std::string _query) {
 };
 
 void QueryParser::parseUseDatabaseQuery(Lexer& lexer) {
-    // Get DB name
-    const Token token = lexer.nextToken();
+    UseDatabaseStatement useDatabaseStatement = UseDatabaseStatement();
 
-    g_activeDbName = token.getValue();
+    // DB name
+    Token token = lexer.nextToken();
+
+    useDatabaseStatement.setName(token.getValue());
+
+    QueryPreparer::prepareUseDatabaseQuery(useDatabaseStatement);
 };
 
 void parseSelectQuery (Lexer& lexer) {
@@ -208,6 +212,6 @@ void QueryParser::parseQuery() const {
             parseUseDatabaseQuery(lexer);
             break;
         default:
-            throw std::runtime_error(std::string("SQL statement is invalid!"));
+            throw std::runtime_error("SQL statement is invalid!");
     }
-}
+};
