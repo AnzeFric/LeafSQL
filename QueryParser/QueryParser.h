@@ -11,15 +11,12 @@
 class QueryParser {
 private:
     std::string query;
-    std::string dbName;
 
-    void parseUseDatabaseQuery(Lexer& lexer);
+    static void parseUseDatabaseQuery(Lexer& lexer);
 public:
     explicit QueryParser(std::string _query);
-    [[nodiscard]] std::string getDbName() const;
-    void setDbName(std::string _dbName);
     void setQuery(std::string _query);
-    void parseQuery();
+    void parseQuery() const;
 };
 
 #endif //LEAFSQL_QUERYPARSER_H

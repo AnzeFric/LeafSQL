@@ -14,16 +14,9 @@
 #include "../Statements/CreateDatabaseStatement/CreateDatabaseStatement.h"
 #include "../Statements/CreateTableStatement/CreateTableStatement.h"
 #include "../Token/Token.h"
+#include "../Shared/Globals.h"
 
 QueryParser::QueryParser(std::string _query) : query(std::move(_query)) {}
-
-std::string QueryParser::getDbName() const {
-    return this->dbName;
-};
-
-void QueryParser::setDbName(std::string _dbName) {
-    this->dbName = std::move(_dbName);
-}
 
 void QueryParser::setQuery(std::string _query) {
     this->query = std::move(_query);
@@ -32,10 +25,11 @@ void QueryParser::setQuery(std::string _query) {
 void QueryParser::parseUseDatabaseQuery(Lexer& lexer) {
     // Get DB name
     const Token token = lexer.nextToken();
-    this->setDbName(token.getValue());
+
+    g_activeDbName = token.getValue();
 };
 
-void parseSelectQuery (Lexer& lexer, const std::string& dbName) {
+void parseSelectQuery (Lexer& lexer) {
     SelectFromStatement selectFromStatement = SelectFromStatement();
 
     // Columns - Loop until next Keyword -> FROM
@@ -60,10 +54,10 @@ void parseSelectQuery (Lexer& lexer, const std::string& dbName) {
     // Table name
     selectFromStatement.setTable(lexer.nextToken().getValue());
 
-    QueryPreparer::prepareSelectQuery(selectFromStatement, dbName);
+    QueryPreparer::prepareSelectQuery(selectFromStatement);
 }
 
-void parseInsertQuery (Lexer& lexer, const std::string& dbName) {
+void parseInsertQuery (Lexer& lexer) {
     InsertIntoStatement insertIntoStatement = InsertIntoStatement();
 
     // INTO
@@ -107,7 +101,7 @@ void parseInsertQuery (Lexer& lexer, const std::string& dbName) {
 
     insertIntoStatement.setValues(values);
 
-    QueryPreparer::prepareInsertQuery(insertIntoStatement, dbName);
+    QueryPreparer::prepareInsertQuery(insertIntoStatement);
 }
 
 // TODO: parseDeleteQuery
@@ -158,7 +152,7 @@ void parseTableValues(Lexer& lexer, CreateTableStatement& createTable) {
     }
 }
 
-void parseCreateQuery(Lexer& lexer, const std::string& _dbName) {
+void parseCreateQuery(Lexer& lexer) {
     // Get the type -> TABLE | DATABASE
     Token token = lexer.nextToken();
     const std::string createType = token.getValue();
@@ -177,7 +171,7 @@ void parseCreateQuery(Lexer& lexer, const std::string& _dbName) {
 
         parseTableValues(lexer, createTable);
 
-        QueryPreparer::prepareCreateTableQuery(createTable, _dbName);
+        QueryPreparer::prepareCreateTableQuery(createTable);
     } else {
         CreateDatabaseStatement createDatabase = CreateDatabaseStatement();
         createDatabase.setName(name);
@@ -186,7 +180,7 @@ void parseCreateQuery(Lexer& lexer, const std::string& _dbName) {
     }
 }
 
-void QueryParser::parseQuery() {
+void QueryParser::parseQuery() const {
     Lexer lexer = Lexer(this->query);
 
     // Keyword: SELECT | INSERT | DELETE | UPDATE | CREATE | USE
@@ -196,10 +190,10 @@ void QueryParser::parseQuery() {
 
     switch (keywordToken.getKeywordType()) {
         case KeywordType::SELECT:
-            parseSelectQuery(lexer, this->dbName);
+            parseSelectQuery(lexer);
             break;
         case KeywordType::INSERT:
-            parseInsertQuery(lexer, this->dbName);
+            parseInsertQuery(lexer);
             break;
         case KeywordType::DELETE:
             parseDeleteQuery(lexer);
@@ -208,10 +202,10 @@ void QueryParser::parseQuery() {
             parseUpdateQuery(lexer);
             break;
         case KeywordType::CREATE:
-            parseCreateQuery(lexer, this->dbName);
+            parseCreateQuery(lexer);
             break;
         case KeywordType::USE:
-            this->parseUseDatabaseQuery(lexer);
+            parseUseDatabaseQuery(lexer);
             break;
         default:
             throw std::runtime_error(std::string("SQL statement is invalid!"));
