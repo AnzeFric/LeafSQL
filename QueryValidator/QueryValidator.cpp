@@ -113,7 +113,7 @@ void QueryValidator::validateInsertQuery(std::fstream& dataFile, const std::vect
     }
 
     // Check for existence of identical primary key as we do not automatically increment
-    if (!tableAttributes[primaryKeyIndex].find("AUTO")) {
+    if (tableAttributes[primaryKeyIndex].find("AUTO") == std::string::npos) {
         int insertPrimaryKeyIndex = -1;
 
         // Check if primary key was provided
@@ -154,7 +154,7 @@ void QueryValidator::validateInsertQuery(std::fstream& dataFile, const std::vect
         }
     }
 
-    QueryExecutor::executeInsertQuery(dataFile, tableColumns, tableAttributes, insertColumns, insertValues);
+    QueryExecutor::executeInsertQuery(tableColumns, tableAttributes, insertColumns, insertValues);
 }
 
 // TODO: Add update validation
