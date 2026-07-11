@@ -137,8 +137,7 @@ void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const
             std::cerr << "Provided primary key is not of type INT: " << e.what() << std::endl;
         }
 
-        std::ifstream file(dataTablePath);
-        const std::vector<std::vector<std::string>> dataFileContents = Utils::getFileContentCSV(file);
+        const std::vector<std::vector<std::string>> dataFileContents = Utils::getFileSplitRows(dataTablePath);
 
         // Go through table and check if the primary key already exists
         for (auto& row: dataFileContents) {
