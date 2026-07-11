@@ -8,6 +8,7 @@
 #include "../Shared/Utils/Utils.h"
 #include "DataType/DataType.h"
 #include <algorithm>
+#include <charconv>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -105,7 +106,7 @@ void QueryValidator::validateSelectQuery(const std::vector<int>& columnIndexes, 
     QueryExecutor::executeSelectQuery(columnIndexes, tableName);
 }
 
-void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
+void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, std::vector<std::string>& insertColumns, std::vector<std::string>& insertValues) {
 
     validateInputToDefinition(tableColumns, tableAttributes, insertColumns, insertValues);
 
@@ -114,8 +115,47 @@ void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const
         throw std::runtime_error("No primary key set on table");
     }
 
-    // Check for existence of identical primary key as we do not automatically increment
-    if (tableAttributes[primaryKeyIndex].find("AUTO") == std::string::npos) {
+    // Get table data
+    const std::vector<std::vector<std::string>> dataFileContents = Utils::getFileSplitRows(dataTablePath);
+
+    // IF - AUTO is set on PRIMARY KEY. Find the max and increment.
+    // ELSE - AUTO is not set on PRIMARY KEY. Check if one was provided and check if the same one already exists.
+    if (std::ranges::find(tableAttributes, "AUTO") != tableAttributes.end()) { // TODO: Fix condition check, so that AUTO will influence the decision
+        long maxPrimaryKey = std::numeric_limits<long>::min();
+
+        // Go through the column containing primary keys and find the max
+        for (const std::string& primaryKey: dataFileContents[primaryKeyIndex]) {
+            long value{};
+            auto [ptr, ec] = std::from_chars(primaryKey.data(), primaryKey.data() + primaryKey.size(), value);
+
+            if (ec == std::errc{} && value > maxPrimaryKey) {
+                maxPrimaryKey = value;
+            }
+        }
+
+        // Increment the max PRIMARY KEY and convert it to string
+        const std::string maxPrimaryKeyStr = std::to_string(maxPrimaryKey++);
+
+        // Get PRIMARY KEY column name
+        const std::string& primaryKeyColumnName = tableColumns[primaryKeyIndex];
+
+        // Get the PRIMARY KEY index from user input
+        const auto it = std::ranges::find(insertColumns, primaryKeyColumnName);
+
+        int inputPrimaryKeyIndex = -1;
+        if (it != insertColumns.end()) {
+            inputPrimaryKeyIndex = std::distance(insertColumns.begin(), it);
+        }
+
+        // IF - PRIMARY KEY was provided. Overwrite it
+        // ELSE - PRIMARY KEY was not provided. Add it to insertColumns and insertValues based on definition
+        if (inputPrimaryKeyIndex != -1) {
+            insertValues[inputPrimaryKeyIndex] = maxPrimaryKeyStr;
+        } else {
+            insertColumns.push_back(primaryKeyColumnName);
+            insertValues.push_back(maxPrimaryKeyStr);
+        }
+    } else {
         int insertPrimaryKeyIndex = -1;
 
         // Check if primary key was provided
@@ -136,8 +176,6 @@ void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const
         } catch (const std::exception& e) {
             std::cerr << "Provided primary key is not of type INT: " << e.what() << std::endl;
         }
-
-        const std::vector<std::vector<std::string>> dataFileContents = Utils::getFileSplitRows(dataTablePath);
 
         // Go through table and check if the primary key already exists
         for (auto& row: dataFileContents) {
@@ -184,6 +222,8 @@ void QueryValidator::validateCreateTableQuery(const CreateTableStatement& create
     if (createTableStatement.getAttributes().size() == 0  || createTableStatement.getColumns().size() == 0) {
         throw std::runtime_error("No columns or attributes set for table: " + tableName);
     }
+
+    // TODO: Add check for mandatory PRIMARY KEY. There has to be only 1. Update documentation
 
     QueryExecutor::executeCreateTableQuery(createTableStatement);
 }
