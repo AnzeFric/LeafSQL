@@ -4,36 +4,25 @@
 
 #include "QueryExecutor.h"
 #include "../Shared/Globals/Globals.h"
+#include "../Shared/Utils/Utils.h"
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
 #include <iostream>
 #include <map>
 
-std::vector<std::string> splitCsvLine(const std::string& line, const char delimiter = ',') {
-    std::vector<std::string> fields;
-    std::stringstream ss(line);
-    std::string field;
-
-    while (std::getline(ss, field, delimiter)) {
-        fields.push_back(field);
-    }
-
-    return fields;
-}
 
 void QueryExecutor::executeSelectQuery(const std::vector<int>& columnIndexes, const std::string& tableName) {
     std::ifstream file("data/" + g_activeDbName + "/" + tableName + "/" + tableName + "_data.csv");
-    std::string line;
 
-    while (std::getline(file, line)) {
-        std::vector<std::string> fields = splitCsvLine(line);
+    const std::vector<std::vector<std::string>> fileContents = Utils::getFileContentCSV(file);
 
+    for (auto& row: fileContents) {
         for (int i = 0; i < columnIndexes.size(); ++i) {
             const int column = columnIndexes[i];
 
-            if (column < fields.size()) {
-                std::cout << fields[column];
+            if (column < row.size()) {
+                std::cout << row[column];
 
                 if (i != columnIndexes.size() - 1) {
                     std::cout << ",";
@@ -44,7 +33,7 @@ void QueryExecutor::executeSelectQuery(const std::vector<int>& columnIndexes, co
     }
 };
 
-void QueryExecutor::executeInsertQuery(std::fstream& dataFile, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
+void QueryExecutor::executeInsertQuery(const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
     // TODO: (auto increment the primary key automatically if it's of type INT OR use the provided one)
     std::string insertValue;
     for (int i = 0; i < tableColumns.size(); i++) {
@@ -75,7 +64,9 @@ void QueryExecutor::executeInsertQuery(std::fstream& dataFile, const std::vector
     insertValue.pop_back(); // Remove " " - Space
     insertValue.pop_back(); // Remove "," - Comma
 
-    dataFile << insertValue << "\n";
+    const std::string path = "data/" + g_activeDbName + "/" + "users" + "/" + "users" + "_data.csv";
+
+    Utils::appendRowCSV(path, insertValue);
 };
 
 // TODO: Make execute update query
