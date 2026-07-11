@@ -13,9 +13,8 @@
 
 
 void QueryExecutor::executeSelectQuery(const std::vector<int>& columnIndexes, const std::string& tableName) {
-    std::ifstream file("data/" + g_activeDbName + "/" + tableName + "/" + tableName + "_data.csv");
-
-    const std::vector<std::vector<std::string>> fileContents = Utils::getFileContentCSV(file);
+    const std::string dataFileContents = "data/" + g_activeDbName + "/" + tableName + "/" + tableName + "_data.csv";
+    const std::vector<std::vector<std::string>> fileContents = Utils::getFileSplitRows(dataFileContents);
 
     for (auto& row: fileContents) {
         for (int i = 0; i < columnIndexes.size(); ++i) {
