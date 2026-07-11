@@ -16,7 +16,7 @@ class QueryValidator {
 public:
     QueryValidator() = default;
     static void validateSelectQuery(const std::vector<int>& columnIndexes, const std::string& tableName);
-    static void validateInsertQuery( std::fstream& dataFile,
+    static void validateInsertQuery(const std::string& dataTablePath,
                                     const std::vector<std::string>& tableColumns,
                                     const std::vector<std::string>& tableAttributes,
                                     const std::vector<std::string>& insertColumns,

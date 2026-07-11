@@ -5,6 +5,7 @@
 #include "QueryValidator.h"
 
 #include "../QueryExecutor/QueryExecutor.h"
+#include "../Shared/Utils/Utils.h"
 #include "DataType/DataType.h"
 #include <algorithm>
 #include <filesystem>
@@ -12,6 +13,7 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+
 
 int getPrimaryKeyColumnIndex(const std::vector<std::string>& tableAttributes) {
     int primaryKeyIndex = -1;
@@ -103,7 +105,7 @@ void QueryValidator::validateSelectQuery(const std::vector<int>& columnIndexes, 
     QueryExecutor::executeSelectQuery(columnIndexes, tableName);
 }
 
-void QueryValidator::validateInsertQuery(std::fstream& dataFile, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
+void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
 
     validateInputToDefinition(tableColumns, tableAttributes, insertColumns, insertValues);
 
@@ -135,20 +137,14 @@ void QueryValidator::validateInsertQuery(std::fstream& dataFile, const std::vect
             std::cerr << "Provided primary key is not of type INT: " << e.what() << std::endl;
         }
 
+        std::ifstream file(dataTablePath);
+        const std::vector<std::vector<std::string>> dataFileContents = Utils::getFileContentCSV(file);
+
         // Go through table and check if the primary key already exists
-        std::string line;
-        while (std::getline(dataFile, line)) {
-            std::istringstream ss(line);
-            std::string temp;
-            int existingPrimaryKey;
+        for (auto& row: dataFileContents) {
+            const int currentPrimaryKey = std::stoi(row[primaryKeyIndex]);
 
-            // Skip columns before primary key column
-            for (int i = 0; i < primaryKeyIndex; i++) {
-                ss >> temp;
-            }
-            ss >> existingPrimaryKey;
-
-            if (existingPrimaryKey == insertPrimaryKey) {
+            if (currentPrimaryKey == insertPrimaryKey) {
                 throw std::runtime_error("Primary key: " + std::to_string(insertPrimaryKey) + ", already exists.");
             }
         }
