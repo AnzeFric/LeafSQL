@@ -86,11 +86,6 @@ void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement) 
     std::vector<std::string> insertColumns = insertIntoStatement.getColumns();
     std::vector<std::string> insertValues = insertIntoStatement.getValues();
 
-    std::fstream dataFile(filePaths[2], std::ios::out | std::ios::app);
-    if (!dataFile.is_open()) {
-        throw std::runtime_error("Failed to open table: " + tableName);
-    }
-
     for (int columnIndex = 0; columnIndex < tableColumns.size(); columnIndex++) {
         bool foundColumn = false;
         for (const auto & insertColumn : insertColumns) {
@@ -108,12 +103,11 @@ void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement) 
     }
 
     try {
-        QueryValidator::validateInsertQuery(dataFile, tableColumns, tableAttributes, insertColumns, insertValues);
+        const std::string& dataTablePath = filePaths[2];
+        QueryValidator::validateInsertQuery(dataTablePath, tableColumns, tableAttributes, insertColumns, insertValues);
     } catch (const std::exception& e) {
         throw std::runtime_error("INSERT INTO TABLE '" + tableName + "': " + e.what());
     }
-
-    dataFile.close();
 }
 
 // TODO: Make prepare update query
