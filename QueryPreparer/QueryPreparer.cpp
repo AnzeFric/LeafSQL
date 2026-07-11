@@ -5,10 +5,10 @@
 #include "QueryPreparer.h"
 #include "../QueryValidator/QueryValidator.h"
 #include "../Shared/Globals/Globals.h"
+#include "../Shared/Utils/Utils.h"
 #include <algorithm>
 #include <fstream>
 #include <stdexcept>
-#include <iostream>
 #include <numeric>
 
 std::vector<std::string> getDefinitionFilePaths(const std::string& tableName) {
@@ -21,30 +21,12 @@ std::vector<std::string> getDefinitionFilePaths(const std::string& tableName) {
     return std::vector {tableColumnsStr, tableAttributesStr, tableDataStr};
 }
 
-std::vector<std::string> getFileContents(const std::string& filePath) {
-    std::ifstream file(filePath);
-    if (!file.is_open()) {
-        throw std::runtime_error("Failed to open file (on path: " + filePath + ")");
-    }
-
-    std::string column;
-    std::vector<std::string> columns;
-
-    while (std::getline(file, column)) {
-        columns.push_back(column);
-    }
-
-    file.close();
-
-    return columns;
-}
-
 void QueryPreparer::prepareSelectQuery(const SelectFromStatement& selectFromStatement) {
     const std::string tableName = selectFromStatement.getTable();
     const std::vector<std::string> filePaths = getDefinitionFilePaths(tableName);
 
     // Get table columns
-    const std::vector<std::string> tableColumns = getFileContents(filePaths[0]);
+    const std::vector<std::string> tableColumns = Utils::getFileRowsCSV(filePaths[0]);
     std::vector<int> columnIndexes(tableColumns.size());
 
     // Get user requested columns
@@ -73,14 +55,13 @@ void QueryPreparer::prepareSelectQuery(const SelectFromStatement& selectFromStat
     }
 }
 
-// TODO: Get the dataFile variable into the QueryExecutor class, so it is not transfered via refference so much
 void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement) {
     const std::string tableName = insertIntoStatement.getTable();
     const std::vector<std::string> filePaths = getDefinitionFilePaths(tableName);
 
     // Get table definition values
-    const std::vector<std::string> tableColumns = getFileContents(filePaths[0]);
-    const std::vector<std::string> tableAttributes = getFileContents(filePaths[1]);
+    const std::vector<std::string> tableColumns = Utils::getFileRowsCSV(filePaths[0]);
+    const std::vector<std::string> tableAttributes = Utils::getFileRowsCSV(filePaths[1]);
 
     // Get user insert values
     std::vector<std::string> insertColumns = insertIntoStatement.getColumns();
