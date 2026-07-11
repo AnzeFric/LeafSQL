@@ -12,7 +12,8 @@
 class Utils {
 private:
 public:
-    static std::vector<std::vector<std::string>> getFileContentCSV(std::istream& file, char delimiter = ',');
+    static std::vector<std::vector<std::string>> getFileSplitRows(const std::string& filePath, char delimiter = ',');
+    static std::vector<std::string> getFileRowsCSV(const std::string& filePath);
     static void appendRowCSV(const std::string& path, const std::string& row);
 };
 
