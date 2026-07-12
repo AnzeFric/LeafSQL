@@ -101,8 +101,11 @@ void validateInputToDefinition(const std::vector<std::string>& tableColumns, con
     }
 }
 
-// TODO: Add select validation
 void QueryValidator::validateSelectQuery(const std::vector<int>& columnIndexes, const std::string& tableName) {
+    if (columnIndexes.empty()) {
+        return;
+    }
+
     QueryExecutor::executeSelectQuery(columnIndexes, tableName);
 }
 
