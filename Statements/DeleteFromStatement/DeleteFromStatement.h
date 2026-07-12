@@ -6,15 +6,19 @@
 #define LEAFSQL_DELETEFROMSTATEMENT_H
 
 #include <string>
+#include <vector>
 
 class DeleteFromStatement {
 private:
     std::string table;
+    std::vector<int> deleteRowIndexes;
 public:
     DeleteFromStatement() = default;
     explicit DeleteFromStatement(std::string _table);
-    void setTable(std::string _table);
+    void setTable(const std::string &_table);
+    void setDeleteRowIndexes(const std::vector<int>& _deleteRowIndexes);
     [[nodiscard]] std::string getTable() const;
+    [[nodiscard]] std::vector<int> getDeleteRowIndexes() const;
 };
 
 
