@@ -8,12 +8,16 @@ int main() {
     const std::string insertQuery = "INSERT INTO users (id, username, email, age, created_at, is_active) VALUES (1, Alice, alice@example.com, 1, NOW(), true);";
     const std::string selectQuery = "SELECT id, age, 123, email, username FROM users;";
     const std::string selectAllQuery = "SELECT * FROM users;";
+    const std::string deleteQuery = "DELETE FROM users WHERE name = 'Alice'";
 
     try {
         QueryParser queryParser = QueryParser(useDBQuery);
         queryParser.parseQuery();
 
-        queryParser.setQuery(selectQuery);
+        queryParser.setQuery(deleteQuery);
+        queryParser.parseQuery();
+
+        queryParser.setQuery(selectAllQuery);
         queryParser.parseQuery();
 
     } catch (std::exception& e) {
