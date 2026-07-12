@@ -70,3 +70,26 @@ void Utils::appendRowCSV(const std::string& path, const std::string& row) {
     file.write(row.data(), row.length());
     file.put('\n');
 }
+
+void Utils::deleteRowCSV(const std::string& path, const int& rowIndex) {
+    std::string tempFile = path + ".tmp";
+
+    std::ifstream in(path);
+    std::ofstream out(tempFile);
+
+    std::string line;
+    size_t currentIndex = 0;
+
+    while (std::getline(in, line)) {
+        if (currentIndex != rowIndex) {
+            out << line << "\n";
+        }
+        ++currentIndex;
+    }
+
+    in.close();
+    out.close();
+
+    std::remove(path.c_str());
+    std::rename(tempFile.c_str(), path.c_str());
+}
