@@ -33,7 +33,7 @@ void QueryParser::parseUseDatabaseQuery(Lexer& lexer) {
     QueryPreparer::prepareUseDatabaseQuery(useDatabaseStatement);
 };
 
-void parseSelectQuery (Lexer& lexer) {
+void parseSelectQuery(Lexer& lexer) {
     SelectFromStatement selectFromStatement = SelectFromStatement();
 
     // Columns - Loop until next Keyword -> FROM
@@ -61,7 +61,7 @@ void parseSelectQuery (Lexer& lexer) {
     QueryPreparer::prepareSelectQuery(selectFromStatement);
 }
 
-void parseInsertQuery (Lexer& lexer) {
+void parseInsertQuery(Lexer& lexer) {
     InsertIntoStatement insertIntoStatement = InsertIntoStatement();
 
     // INTO
@@ -109,10 +109,10 @@ void parseInsertQuery (Lexer& lexer) {
 }
 
 // TODO: parseDeleteQuery
-void parseDeleteQuery (Lexer& lexer) {}
+void parseDeleteQuery(Lexer& lexer) {}
 
 // TODO: parseUpdateQuery
-void parseUpdateQuery (Lexer& lexer) {}
+void parseUpdateQuery(Lexer& lexer) {}
 
 void parseTableValues(Lexer& lexer, CreateTableStatement& createTable) {
     // Starting bracket - '('

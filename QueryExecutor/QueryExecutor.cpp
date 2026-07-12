@@ -24,7 +24,7 @@ void QueryExecutor::executeSelectQuery(const std::vector<int>& columnIndexes, co
                 std::cout << row[column];
 
                 if (i != columnIndexes.size() - 1) {
-                    std::cout << ",";
+                    std::cout << ", ";
                 }
             }
         }
