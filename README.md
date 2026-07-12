@@ -60,8 +60,8 @@ CREATE TABLE <name> (
 - `BOOLEAN` - Boolean type
 - `TIMESTAMP` - Timestamp type
 
-**Constraints:**
-- `PRIMARY` - Mark as primary key (only 1 per table)
+**Attributes:**
+- `PRIMARY` - Mark as primary key (1 per table)
 - `AUTO` - Auto-increment value (requires `INT` type)
 - `UNIQUE` - Value must be unique in the table
 - `NULL` - Allow null values (values are non-nullable by default)
@@ -82,3 +82,4 @@ CREATE TABLE users (
 - Name cannot contain whitespace - use underscores
 - The name has to be between 1 and 63 chars.
 - Name has to be unique. A database with the same name cannot be created.
+- PRIMARY(Primary key) attribute has to be set on one field of type INT.

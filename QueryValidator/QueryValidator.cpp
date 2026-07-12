@@ -216,6 +216,8 @@ void QueryValidator::validateCreateDatabaseQuery(const CreateDatabaseStatement& 
 
 void QueryValidator::validateCreateTableQuery(const CreateTableStatement& createTableStatement) {
     const std::string tableName = createTableStatement.getName();
+    const auto tableAttributes = createTableStatement.getAttributes();
+
     if (tableName.length() < 1 || tableName.length() > 63) {
         throw std::runtime_error("Table name length is incorrect! Min length is 1 char and max length is 63 chars.");
     }
@@ -224,11 +226,23 @@ void QueryValidator::validateCreateTableQuery(const CreateTableStatement& create
         throw std::runtime_error("Table name contains not allowed whitespace! Use underscores.");
     }
 
-    if (createTableStatement.getAttributes().size() == 0  || createTableStatement.getColumns().size() == 0) {
+    if (tableAttributes.empty()  || createTableStatement.getColumns().empty()) {
         throw std::runtime_error("No columns or attributes set for table: " + tableName);
     }
 
-    // TODO: Add check for mandatory PRIMARY KEY. There has to be only 1. Update documentation
+    const auto primaryKeyRow = std::ranges::find_if(tableAttributes, [](const auto& columnAttribute) {
+        return std::find(columnAttribute.begin(), columnAttribute.end(), "PRIMARY") != columnAttribute.end();
+    });
+
+    if (primaryKeyRow == tableAttributes.end()) {
+        throw std::runtime_error("Primary key parameter was not used on any column.");
+    }
+
+    const bool foundDataTypeINT = std::find(primaryKeyRow->begin(), primaryKeyRow->end(), "INT") != primaryKeyRow->end();
+
+    if (!foundDataTypeINT) {
+        throw std::runtime_error("Primary key parameter is not of type INT.");
+    }
 
     QueryExecutor::executeCreateTableQuery(createTableStatement);
 }
