@@ -120,12 +120,12 @@ void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const
 
     // IF - AUTO is set on PRIMARY KEY. Find the max and increment.
     // ELSE - AUTO is not set on PRIMARY KEY. Check if one was provided and check if the same one already exists.
-    if (std::ranges::find(tableAttributes, "AUTO") != tableAttributes.end()) { // TODO: Fix condition check, so that AUTO will influence the decision
-        long maxPrimaryKey = std::numeric_limits<long>::min();
+    if (tableAttributes[primaryKeyIndex].find("AUTO") != std::string::npos) {
+        long maxPrimaryKey = std::numeric_limits<long>::min(), value;
 
         // Go through the column containing primary keys and find the max
-        for (const std::string& primaryKey: dataFileContents[primaryKeyIndex]) {
-            long value{};
+        for (const std::vector<std::string>& row: dataFileContents) {
+            const std::string& primaryKey = row[primaryKeyIndex];
             auto [ptr, ec] = std::from_chars(primaryKey.data(), primaryKey.data() + primaryKey.size(), value);
 
             if (ec == std::errc{} && value > maxPrimaryKey) {
@@ -134,7 +134,8 @@ void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const
         }
 
         // Increment the max PRIMARY KEY and convert it to string
-        const std::string maxPrimaryKeyStr = std::to_string(maxPrimaryKey++);
+        maxPrimaryKey++;
+        const std::string maxPrimaryKeyStr = std::to_string(maxPrimaryKey);
 
         // Get PRIMARY KEY column name
         const std::string& primaryKeyColumnName = tableColumns[primaryKeyIndex];
@@ -170,11 +171,15 @@ void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const
         }
 
         // Check if provided primary key is of type int
-        int insertPrimaryKey = -1;
+        long insertPrimaryKey = -1;
         try {
             insertPrimaryKey = std::stoi(insertValues[insertPrimaryKeyIndex]);
         } catch (const std::exception& e) {
             std::cerr << "Provided primary key is not of type INT: " << e.what() << std::endl;
+        }
+
+        if (insertPrimaryKey < 0) {
+            throw std::runtime_error("Primary key has to be a positive number.");
         }
 
         // Go through table and check if the primary key already exists
