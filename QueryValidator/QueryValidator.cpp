@@ -214,6 +214,7 @@ void QueryValidator::validateCreateDatabaseQuery(const CreateDatabaseStatement& 
     QueryExecutor::executeCreateDatabaseQuery(createDatabaseStatement);
 }
 
+// TODO: Add check for multiple PRIMARY attributes used.
 void QueryValidator::validateCreateTableQuery(const CreateTableStatement& createTableStatement) {
     const std::string tableName = createTableStatement.getName();
     const auto tableAttributes = createTableStatement.getAttributes();
