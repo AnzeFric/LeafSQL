@@ -33,6 +33,7 @@ void QueryParser::parseUseDatabaseQuery(Lexer& lexer) {
     QueryPreparer::prepareUseDatabaseQuery(useDatabaseStatement);
 };
 
+// TODO: Add an optional WHERE clause
 void parseSelectQuery(Lexer& lexer) {
     SelectFromStatement selectFromStatement = SelectFromStatement();
 
@@ -108,8 +109,18 @@ void parseInsertQuery(Lexer& lexer) {
     QueryPreparer::prepareInsertQuery(insertIntoStatement);
 }
 
-// TODO: parseDeleteQuery
-void parseDeleteQuery(Lexer& lexer) {}
+// TODO: Add WHERE clause
+void parseDeleteQuery(Lexer& lexer) {
+    DeleteFromStatement deleteFromStatement = DeleteFromStatement();
+
+    // FROM
+    lexer.nextToken();
+
+    // Table name
+    deleteFromStatement.setTable(lexer.nextToken().getValue());
+
+    QueryPreparer::prepareDeleteQuery(deleteFromStatement);
+}
 
 // TODO: parseUpdateQuery
 void parseUpdateQuery(Lexer& lexer) {}
