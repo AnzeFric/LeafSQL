@@ -214,7 +214,6 @@ void QueryValidator::validateCreateDatabaseQuery(const CreateDatabaseStatement& 
     QueryExecutor::executeCreateDatabaseQuery(createDatabaseStatement);
 }
 
-// TODO: Add check for multiple PRIMARY attributes used.
 void QueryValidator::validateCreateTableQuery(const CreateTableStatement& createTableStatement) {
     const std::string tableName = createTableStatement.getName();
     const auto tableAttributes = createTableStatement.getAttributes();
@@ -227,19 +226,28 @@ void QueryValidator::validateCreateTableQuery(const CreateTableStatement& create
         throw std::runtime_error("Table name contains not allowed whitespace! Use underscores.");
     }
 
-    if (tableAttributes.empty()  || createTableStatement.getColumns().empty()) {
+    if (tableAttributes.empty() || createTableStatement.getColumns().empty()) {
         throw std::runtime_error("No columns or attributes set for table: " + tableName);
     }
 
-    const auto primaryKeyRow = std::ranges::find_if(tableAttributes, [](const auto& columnAttribute) {
-        return std::find(columnAttribute.begin(), columnAttribute.end(), "PRIMARY") != columnAttribute.end();
-    });
+    // Check for attribute PRIMARY usage. So that only one is used.
+    const auto isPrimaryKeyColumn = [](const auto& columnAttribute) {
+        return std::ranges::find(columnAttribute, "PRIMARY") != columnAttribute.end();
+    };
 
-    if (primaryKeyRow == tableAttributes.end()) {
+    const auto primaryKeyCount = std::ranges::count_if(tableAttributes, isPrimaryKeyColumn);
+
+    if (primaryKeyCount == 0) {
         throw std::runtime_error("Primary key parameter was not used on any column.");
     }
+    if (primaryKeyCount > 1) {
+        throw std::runtime_error("Multiple columns have the primary key parameter.");
+    }
 
-    const bool foundDataTypeINT = std::find(primaryKeyRow->begin(), primaryKeyRow->end(), "INT") != primaryKeyRow->end();
+    // Check that the PRIMARY attribute is set on type INT
+    const auto primaryKeyRow = std::ranges::find_if(tableAttributes, isPrimaryKeyColumn);
+
+    const bool foundDataTypeINT = std::ranges::find(*primaryKeyRow, "INT") != primaryKeyRow->end();
 
     if (!foundDataTypeINT) {
         throw std::runtime_error("Primary key parameter is not of type INT.");
