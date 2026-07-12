@@ -202,7 +202,9 @@ void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const
 void QueryValidator::validateUpdateQuery(UpdateStatement updateStatement) {}
 
 // TODO: Add delete validation
-void QueryValidator::validateDeleteQuery(DeleteFromStatement deleteFromStatement) {}
+    void QueryValidator::validateDeleteQuery(DeleteFromStatement deleteFromStatement) {
+    QueryExecutor::executeDeleteQuery(deleteFromStatement);
+}
 
 void QueryValidator::validateCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement) {
     const std::string dbName = createDatabaseStatement.getName();
