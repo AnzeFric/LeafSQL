@@ -106,7 +106,6 @@ void QueryValidator::validateSelectQuery(const std::vector<int>& columnIndexes, 
     QueryExecutor::executeSelectQuery(columnIndexes, tableName);
 }
 
-// TODO: Check why with attribute AUTO, the primary key value is set to max min value
 void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, std::vector<std::string>& insertColumns, std::vector<std::string>& insertValues) {
 
     validateInputToDefinition(tableColumns, tableAttributes, insertColumns, insertValues);
@@ -122,7 +121,7 @@ void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const
     // IF - AUTO is set on PRIMARY KEY. Find the max and increment.
     // ELSE - AUTO is not set on PRIMARY KEY. Check if one was provided and check if the same one already exists.
     if (tableAttributes[primaryKeyIndex].find("AUTO") != std::string::npos) {
-        long maxPrimaryKey = std::numeric_limits<long>::min(), value;
+        long maxPrimaryKey = -1, value;
 
         // Go through the column containing primary keys and find the max
         for (const std::vector<std::string>& row: dataFileContents) {
