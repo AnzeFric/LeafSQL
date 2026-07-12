@@ -94,8 +94,16 @@ void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement) 
 // TODO: Make prepare update query
 void QueryPreparer::prepareUpdateQuery(UpdateStatement updateStatement) {}
 
-// TODO: Make prepare delete query
-void QueryPreparer::prepareDeleteQuery(DeleteFromStatement deleteFromStatement) {}
+// TODO: Prepare the query based on WHERE clause
+void QueryPreparer::prepareDeleteQuery(DeleteFromStatement deleteFromStatement) {
+    deleteFromStatement.setDeleteRowIndexes({0});
+
+    try {
+        QueryValidator::validateDeleteQuery(deleteFromStatement);
+    } catch (const std::exception& e) {
+        throw std::runtime_error("DELETE FROM TABLE '" + deleteFromStatement.getTable() + "': " + e.what());
+    }
+}
 
 void QueryPreparer::prepareCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement) {
     try {
