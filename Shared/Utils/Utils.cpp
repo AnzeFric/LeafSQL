@@ -21,13 +21,18 @@ std::vector<std::vector<std::string>> Utils::getFileSplitRows(const std::string&
 
         std::vector<std::string> rowFields;
         size_t start = 0;
-        size_t pos;
+        size_t pos = line.find(delimiter, start) != std::string::npos;
+
+        rowFields.emplace_back(line, start, pos - start);
+        start = pos + 1;
 
         while ((pos = line.find(delimiter, start)) != std::string::npos) {
+            start++;
             rowFields.emplace_back(line, start, pos - start);
             start = pos + 1;
         }
 
+        start++;
         rowFields.emplace_back(line, start, line.size() - start); // last field
 
         fileSplitRows.push_back(std::move(rowFields));
