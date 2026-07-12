@@ -63,6 +63,7 @@ void QueryExecutor::executeInsertQuery(const std::vector<std::string>& tableColu
     insertValue.pop_back(); // Remove " " - Space
     insertValue.pop_back(); // Remove "," - Comma
 
+    // TODO: Change from hardcoded string to dynamic table name
     const std::string path = "data/" + g_activeDbName + "/" + "users" + "/" + "users" + "_data.csv";
 
     Utils::appendRowCSV(path, insertValue);
@@ -71,8 +72,15 @@ void QueryExecutor::executeInsertQuery(const std::vector<std::string>& tableColu
 // TODO: Make execute update query
 void QueryExecutor::executeUpdateQuery(UpdateStatement updateStatement) {};
 
-// TODO: Make execute delete query
-void QueryExecutor::executeDeleteQuery(DeleteFromStatement deleteFromStatement) {};
+// TODO: Improve DELETE query based on WHERE clause
+void QueryExecutor::executeDeleteQuery(DeleteFromStatement deleteFromStatement) {
+    const std::string& tableName = deleteFromStatement.getTable();
+    const std::string& filePath = "data/" + g_activeDbName + "/" + tableName + "/" + tableName + "_data.csv";
+
+    for (auto& rowIndex : deleteFromStatement.getDeleteRowIndexes()) {
+        Utils::deleteRowCSV(filePath, rowIndex);
+    }
+};
 
 void QueryExecutor::executeCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement) {
     const std::string dbName = createDatabaseStatement.getName();
