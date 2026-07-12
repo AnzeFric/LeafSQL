@@ -106,6 +106,7 @@ void QueryValidator::validateSelectQuery(const std::vector<int>& columnIndexes, 
     QueryExecutor::executeSelectQuery(columnIndexes, tableName);
 }
 
+// TODO: Check why with attribute AUTO, the primary key value is set to max min value
 void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, std::vector<std::string>& insertColumns, std::vector<std::string>& insertValues) {
 
     validateInputToDefinition(tableColumns, tableAttributes, insertColumns, insertValues);
