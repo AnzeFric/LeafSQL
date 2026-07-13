@@ -44,6 +44,14 @@ std::optional<Token> checkExceptionChar(const char& c, size_t& _pos) {
         _pos++;
         return Token {TokenType::Bracket, std::string(1, c)};
     }
+    if (c == '<' || c == '>') {
+        _pos++;
+        return Token {TokenType::Chevron, std::string(1, c)};
+    }
+    if (c == '=') {
+        _pos++;
+        return Token {TokenType::Equals, "="};
+    }
     return std::nullopt;
 }
 
@@ -71,7 +79,7 @@ Token Lexer::nextToken() {
         return *_token;
     }
 
-    // Comma, *, ( or )
+    // Comma, *, (, ), <, > or =
     const char c = this->query[this->pos];
     if (const std::optional<Token> _token = checkExceptionChar(c, this->pos)) {
         return *_token;

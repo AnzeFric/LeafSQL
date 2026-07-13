@@ -14,7 +14,7 @@ private:
     std::string query;
     size_t pos;
     const std::vector<std::string> reservedWords = {"SELECT", "FROM", "INSERT", "INTO", "CREATE", "TABLE", "USE", "DATABASE", "UPDATE"};
-    const std::vector<char> exceptionChar = {'.', '@', '_', '-'};
+    const std::vector<char> exceptionChar = {'.', '@', '_', '-', '=', '>', '<'};
 public:
     explicit Lexer(std::string _query);
     Token nextToken();
