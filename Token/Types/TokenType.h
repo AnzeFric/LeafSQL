@@ -5,6 +5,6 @@
 #ifndef LEAFSQL_TOKENTYPE_H
 #define LEAFSQL_TOKENTYPE_H
 
-enum class TokenType { Keyword, Identifier, Everything, Comma, Bracket, Start, End };
+enum class TokenType { Keyword, Identifier, Everything, Comma, Bracket, Chevron, Equals, Start, End };
 
 #endif //LEAFSQL_TOKENTYPE_H
