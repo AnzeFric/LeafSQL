@@ -119,6 +119,28 @@ void parseDeleteQuery(Lexer& lexer) {
     // Table name
     deleteFromStatement.setTable(lexer.nextToken().getValue());
 
+    Token token = lexer.nextToken();
+    if (token.getValue() == "WHERE") {
+        std::vector<Condition> conditions;
+
+        token = lexer.nextToken();
+
+        // Loop until end of line
+        while (token.getType() != TokenType::End) {
+            Condition condition = Condition();
+
+            condition.column = token.getValue();
+            condition.symbol = lexer.nextToken().getValue();
+            condition.value = lexer.nextToken().getValue();
+
+            token = lexer.nextToken();
+
+            conditions.push_back(condition);
+        }
+
+        deleteFromStatement.setConditions(conditions);
+    }
+
     QueryPreparer::prepareDeleteQuery(deleteFromStatement);
 }
 
