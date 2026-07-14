@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 #include "../QueryPreparer/QueryPreparer.h"
+#include "../Shared/Utils/Utils.h"
 #include "../Token/KeywordToken/KeywordToken.h"
 #include "../Token/Types/KeywordType.h"
 #include "../Statements/SelectFromStatement/SelectFromStatement.h"
@@ -120,7 +121,7 @@ void parseDeleteQuery(Lexer& lexer) {
     deleteFromStatement.setTable(lexer.nextToken().getValue());
 
     Token token = lexer.nextToken();
-    if (token.getValue() == "WHERE") {
+    if (Utils::strToUpper(token.getValue()) == "WHERE") {
         std::vector<Condition> conditions;
 
         token = lexer.nextToken();
@@ -130,7 +131,7 @@ void parseDeleteQuery(Lexer& lexer) {
             Condition condition = Condition();
 
             condition.column = token.getValue();
-            condition.symbol = lexer.nextToken().getValue();
+            condition.symbol = DeleteFromStatement::getSymbol(lexer.nextToken().getValue()[0]);
             condition.value = lexer.nextToken().getValue();
 
             token = lexer.nextToken();
