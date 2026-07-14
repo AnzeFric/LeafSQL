@@ -15,10 +15,17 @@ enum Symbol {
     UNKNOWN
 };
 
+enum LogicalOperator {
+    AND,
+    OR,
+    END // Used to mark end of the WHERE clause
+};
+
 struct Condition {
     std::string column;
     Symbol symbol; // e.g. "=", ">", "<"
     std::string value;
+    LogicalOperator logicalOperator; // "AND", "OR"
 };
 
 class DeleteFromStatement {
@@ -35,7 +42,8 @@ public:
     [[nodiscard]] std::string getTable() const;
     [[nodiscard]] std::vector<int> getDeleteRowIndexes() const;
     [[nodiscard]] std::vector<Condition> getConditions() const;
-    static Symbol getSymbol(const char& symbolStr) ;
+    static Symbol charToSymbol(const char& symbolChar);
+    static LogicalOperator strToLogicalOperator(const std::string& logicalOperatorStr);
 };
 
 

@@ -4,6 +4,8 @@
 
 #include "DeleteFromStatement.h"
 
+#include "../../Shared/Utils/Utils.h"
+
 DeleteFromStatement::DeleteFromStatement(std::string _table): table(std::move(_table)) {
     this->deleteRowIndexes = std::vector<int>();
     this->conditions = std::vector<Condition>();
@@ -33,15 +35,27 @@ std::vector<Condition> DeleteFromStatement::getConditions() const {
     return this->conditions;
 }
 
-Symbol DeleteFromStatement::getSymbol(const char& symbolStr) {
-    if (symbolStr == '=') {
+Symbol DeleteFromStatement::charToSymbol(const char& symbolChar) {
+    if (symbolChar == '=') {
         return  EQUALS;
     }
-    if (symbolStr == '>') {
+    if (symbolChar == '>') {
         return GREATER_THAN;
     }
-    if (symbolStr == '<') {
+    if (symbolChar == '<') {
         return LESS_THAN;
     }
     return UNKNOWN;
+}
+
+LogicalOperator DeleteFromStatement::strToLogicalOperator(const std::string& logicalOperatorStr) {
+    std::string logicalOperatorUpper = Utils::strToUpper(logicalOperatorStr);
+
+    if (logicalOperatorUpper == "AND") {
+        return AND;
+    }
+    if (logicalOperatorUpper == "OR") {
+        return OR;
+    }
+    return END;
 }
