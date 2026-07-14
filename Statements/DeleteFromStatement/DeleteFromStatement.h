@@ -8,10 +8,15 @@
 #include <string>
 #include <vector>
 
-// TODO: Make enum for symbols
+enum Symbol {
+    EQUALS,
+    GREATER_THAN,
+    LESS_THAN,
+};
+
 struct Condition {
     std::string column;
-    std::string symbol; // e.g. "=", ">", "<"
+    Symbol symbol; // e.g. "=", ">", "<"
     std::string value;
 };
 
