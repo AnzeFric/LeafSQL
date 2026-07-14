@@ -93,3 +93,11 @@ void Utils::deleteRowCSV(const std::string& path, const int& rowIndex) {
     std::remove(path.c_str());
     std::rename(tempFile.c_str(), path.c_str());
 }
+
+std::string Utils::strToUpper(const std::string& str) {
+    std::string upperStr;
+    for (auto & c: str) {
+        upperStr += static_cast<char>(toupper(c));
+    }
+    return upperStr;
+}
