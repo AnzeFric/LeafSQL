@@ -32,3 +32,16 @@ void DeleteFromStatement::setConditions(const std::vector<Condition>& _condition
 std::vector<Condition> DeleteFromStatement::getConditions() const {
     return this->conditions;
 }
+
+Symbol DeleteFromStatement::getSymbol(const char& symbolStr) {
+    if (symbolStr == '=') {
+        return  EQUALS;
+    }
+    if (symbolStr == '>') {
+        return GREATER_THAN;
+    }
+    if (symbolStr == '<') {
+        return LESS_THAN;
+    }
+    return UNKNOWN;
+}

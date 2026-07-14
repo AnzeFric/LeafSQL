@@ -12,6 +12,7 @@ enum Symbol {
     EQUALS,
     GREATER_THAN,
     LESS_THAN,
+    UNKNOWN
 };
 
 struct Condition {
@@ -34,6 +35,7 @@ public:
     [[nodiscard]] std::string getTable() const;
     [[nodiscard]] std::vector<int> getDeleteRowIndexes() const;
     [[nodiscard]] std::vector<Condition> getConditions() const;
+    static Symbol getSymbol(const char& symbolStr) ;
 };
 
 
