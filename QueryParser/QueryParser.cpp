@@ -3,7 +3,6 @@
 //
 
 #include "QueryParser.h"
-#include <iostream>
 #include <utility>
 #include <vector>
 #include "../QueryPreparer/QueryPreparer.h"
@@ -110,7 +109,6 @@ void parseInsertQuery(Lexer& lexer) {
     QueryPreparer::prepareInsertQuery(insertIntoStatement);
 }
 
-// TODO: Add WHERE clause
 void parseDeleteQuery(Lexer& lexer) {
     DeleteFromStatement deleteFromStatement = DeleteFromStatement();
 
@@ -131,10 +129,19 @@ void parseDeleteQuery(Lexer& lexer) {
             Condition condition = Condition();
 
             condition.column = token.getValue();
-            condition.symbol = DeleteFromStatement::getSymbol(lexer.nextToken().getValue()[0]);
+            condition.symbol = DeleteFromStatement::charToSymbol(lexer.nextToken().getValue()[0]);
             condition.value = lexer.nextToken().getValue();
 
             token = lexer.nextToken();
+
+            const LogicalOperator logicalOperator = DeleteFromStatement::strToLogicalOperator(token.getValue());
+
+            if (logicalOperator == END) {
+                condition.logicalOperator = END;
+            } else {
+                condition.logicalOperator = logicalOperator;
+                token = lexer.nextToken();
+            }
 
             conditions.push_back(condition);
         }
