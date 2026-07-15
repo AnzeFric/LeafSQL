@@ -77,9 +77,22 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT TRUE
 );
+
 ```
 **Limits:**
 - Name cannot contain whitespace - use underscores
 - The name has to be between 1 and 63 chars.
 - Name has to be unique. A database with the same name cannot be created.
 - PRIMARY(Primary key) attribute has to be set on one field of type INT.
+
+## Data Operations
+
+### SELECT
+
+```
+SELECT <columns> FROM <name>;
+```
+
+**Parameters:**
+- `<columns>` - Column names OR use '*' to select all
+- `<name>` - Table name (string)
