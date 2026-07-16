@@ -59,3 +59,14 @@ LogicalOperator DeleteFromStatement::strToLogicalOperator(const std::string& log
     }
     return END;
 }
+
+std::string DeleteFromStatement::logicalOperatorToStr(const LogicalOperator &logicalOperator) {
+    switch (logicalOperator) {
+        case AND:
+            return "&&";
+        case OR:
+            return "||";
+        default:
+            return "";
+    }
+}

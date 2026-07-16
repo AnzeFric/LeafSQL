@@ -23,6 +23,7 @@ enum LogicalOperator {
 
 struct Condition {
     std::string column;
+    int columnIndex;
     Symbol symbol; // e.g. "=", ">", "<"
     std::string value;
     LogicalOperator logicalOperator; // "AND", "OR"
@@ -44,6 +45,7 @@ public:
     [[nodiscard]] std::vector<Condition> getConditions() const;
     static Symbol charToSymbol(const char& symbolChar);
     static LogicalOperator strToLogicalOperator(const std::string& logicalOperatorStr);
+    static std::string logicalOperatorToStr(const LogicalOperator& logicalOperator);
 };
 
 
