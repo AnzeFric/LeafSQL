@@ -72,7 +72,7 @@ void QueryExecutor::executeInsertQuery(const std::vector<std::string>& tableColu
 // TODO: Make execute update query
 void QueryExecutor::executeUpdateQuery(UpdateStatement updateStatement) {};
 
-// TODO: Improve DELETE query based on WHERE clause
+// TODO: Fix Deletion of indexes based on array. Only certain values get deleted, most probably as the new temp file has a new structure
 void QueryExecutor::executeDeleteQuery(DeleteFromStatement deleteFromStatement) {
     const std::string& tableName = deleteFromStatement.getTable();
     const std::string& filePath = "data/" + g_activeDbName + "/" + tableName + "/" + tableName + "_data.csv";
