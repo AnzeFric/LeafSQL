@@ -62,6 +62,7 @@ void parseSelectQuery(Lexer& lexer) {
     QueryPreparer::prepareSelectQuery(selectFromStatement);
 }
 
+// TODO: Fix multiple digits id not being parsed correctly - also check for other int types
 void parseInsertQuery(Lexer& lexer) {
     InsertIntoStatement insertIntoStatement = InsertIntoStatement();
 
