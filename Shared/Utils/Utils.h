@@ -16,6 +16,7 @@ public:
     static std::vector<std::string> getFileRowsCSV(const std::string& filePath);
     static void appendRowCSV(const std::string& path, const std::string& row);
     static void deleteRowCSV(const std::string& path, const int& rowIndex);
+    static void deleteRowsCSV(const std::string& path, const std::vector<int>& rowIndex);
     static std::string strToUpper(const std::string& str);
 };
 

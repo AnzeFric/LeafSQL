@@ -4,6 +4,9 @@
 
 #include "Utils.h"
 
+#include <algorithm>
+#include <unordered_set>
+
 std::vector<std::vector<std::string>> Utils::getFileSplitRows(const std::string& filePath, const char delimiter) {
     std::ifstream file(filePath);
     if (!file.is_open()) {
@@ -82,6 +85,31 @@ void Utils::deleteRowCSV(const std::string& path, const int& rowIndex) {
 
     while (std::getline(in, line)) {
         if (currentIndex != rowIndex) {
+            out << line << "\n";
+        }
+        ++currentIndex;
+    }
+
+    in.close();
+    out.close();
+
+    std::remove(path.c_str());
+    std::rename(tempFile.c_str(), path.c_str());
+}
+
+void Utils::deleteRowsCSV(const std::string& path, const std::vector<int>& rowIndex) {
+    std::string tempFile = path + ".tmp";
+
+    std::ifstream in(path);
+    std::ofstream out(tempFile);
+
+    std::string line;
+    size_t currentIndex = 0;
+
+    std::unordered_set<std::size_t> rowIndexSet(rowIndex.begin(), rowIndex.end());
+
+    while (std::getline(in, line)) {
+        if (!rowIndexSet.contains(currentIndex)) {
             out << line << "\n";
         }
         ++currentIndex;
