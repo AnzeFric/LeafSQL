@@ -33,7 +33,7 @@ void QueryParser::parseUseDatabaseQuery(Lexer& lexer) {
     QueryPreparer::prepareUseDatabaseQuery(useDatabaseStatement);
 };
 
-// TODO: Add an optional WHERE clause
+// TODO: Export the WHERE statement from DELETE and reuse
 void parseSelectQuery(Lexer& lexer) {
     SelectFromStatement selectFromStatement = SelectFromStatement();
 
