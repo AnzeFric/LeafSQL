@@ -16,7 +16,8 @@ class QueryExecutor {
 public:
     QueryExecutor() = default;
     static void executeSelectQuery(const std::vector<int>& columnIndexes, const std::string& tableName);
-    static void executeInsertQuery(const std::vector<std::string>& tableColumns,
+    static void executeInsertQuery(const std::string& tableName,
+                                   const std::vector<std::string>& tableColumns,
                                    const std::vector<std::string>& tableAttributes,
                                    const std::vector<std::string>& insertColumns,
                                    const std::vector<std::string>& insertValues);

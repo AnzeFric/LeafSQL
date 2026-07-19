@@ -32,7 +32,7 @@ void QueryExecutor::executeSelectQuery(const std::vector<int>& columnIndexes, co
     }
 };
 
-void QueryExecutor::executeInsertQuery(const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
+void QueryExecutor::executeInsertQuery(const std::string& tableName, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, const std::vector<std::string>& insertColumns, const std::vector<std::string>& insertValues) {
     std::string insertValue;
 
     for (int i = 0; i < tableColumns.size(); i++) {
@@ -63,8 +63,7 @@ void QueryExecutor::executeInsertQuery(const std::vector<std::string>& tableColu
     insertValue.pop_back(); // Remove " " - Space
     insertValue.pop_back(); // Remove "," - Comma
 
-    // TODO: Change from hardcoded string to dynamic table name
-    const std::string path = "data/" + g_activeDbName + "/" + "users" + "/" + "users" + "_data.csv";
+    const std::string path = "data/" + g_activeDbName + "/" + tableName + "/" + tableName + "_data.csv";
 
     Utils::appendRowCSV(path, insertValue);
 };
