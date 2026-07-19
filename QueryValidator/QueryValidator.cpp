@@ -110,7 +110,9 @@ void QueryValidator::validateSelectQuery(const std::vector<int>& columnIndexes, 
 }
 
 // TODO: Make the data file load via ifstream instead of loading the whole table into memory
-void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, std::vector<std::string>& insertColumns, std::vector<std::string>& insertValues) {
+void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const std::string& tableName, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, InsertIntoStatement& insertIntoStatement) {
+    std::vector<std::string> insertColumns = insertIntoStatement.getColumns();
+    std::vector<std::string> insertValues = insertIntoStatement.getValues();
 
     validateInputToDefinition(tableColumns, tableAttributes, insertColumns, insertValues);
 
@@ -196,7 +198,7 @@ void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const
         }
     }
 
-    QueryExecutor::executeInsertQuery(tableColumns, tableAttributes, insertColumns, insertValues);
+    QueryExecutor::executeInsertQuery(tableName, tableColumns, tableAttributes, insertColumns, insertValues);
 }
 
 // TODO: Add update validation

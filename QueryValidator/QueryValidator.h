@@ -10,16 +10,17 @@
 #include "../Statements/CreateDatabaseStatement/CreateDatabaseStatement.h"
 #include "../Statements/CreateTableStatement/CreateTableStatement.h"
 #include  "../Statements/UseDatabaseStatement/UseDatabaseStatement.h"
+#include "../Statements/InsertIntoStatement/InsertIntoStatement.h"
 
 class QueryValidator {
 public:
     QueryValidator() = default;
     static void validateSelectQuery(const std::vector<int>& columnIndexes, const std::string& tableName);
     static void validateInsertQuery(const std::string& dataTablePath,
+                                    const std::string& tableName,
                                     const std::vector<std::string>& tableColumns,
                                     const std::vector<std::string>& tableAttributes,
-                                    std::vector<std::string>& insertColumns,
-                                    std::vector<std::string>& insertValues);
+                                    InsertIntoStatement& insertIntoStatement);
     static void validateUpdateQuery(UpdateStatement updateStatement);
     static void validateDeleteQuery(DeleteFromStatement deleteFromStatement);
     static void validateCreateDatabaseQuery(const CreateDatabaseStatement& createDatabaseStatement);
