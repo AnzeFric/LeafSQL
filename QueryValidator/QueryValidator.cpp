@@ -109,6 +109,7 @@ void QueryValidator::validateSelectQuery(const std::vector<int>& columnIndexes, 
     QueryExecutor::executeSelectQuery(columnIndexes, tableName);
 }
 
+// TODO: Make the data file load via ifstream instead of loading the whole table into memory
 void QueryValidator::validateInsertQuery(const std::string& dataTablePath, const std::vector<std::string>& tableColumns, const std::vector<std::string>& tableAttributes, std::vector<std::string>& insertColumns, std::vector<std::string>& insertValues) {
 
     validateInputToDefinition(tableColumns, tableAttributes, insertColumns, insertValues);
