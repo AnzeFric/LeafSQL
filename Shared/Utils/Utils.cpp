@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <unordered_set>
 
+// TODO: Fix method not parsing id correctly, on insert. Also check other INT types
 std::vector<std::vector<std::string>> Utils::getFileSplitRows(const std::string& filePath, const char delimiter) {
     std::ifstream file(filePath);
     if (!file.is_open()) {
