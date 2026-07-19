@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <unordered_set>
 
-// TODO: Fix method not parsing id correctly, on insert. Also check other INT types
 std::vector<std::vector<std::string>> Utils::getFileSplitRows(const std::string& filePath, const char delimiter) {
     std::ifstream file(filePath);
     if (!file.is_open()) {
@@ -25,7 +24,11 @@ std::vector<std::vector<std::string>> Utils::getFileSplitRows(const std::string&
 
         std::vector<std::string> rowFields;
         size_t start = 0;
-        size_t pos = line.find(delimiter, start) != std::string::npos;
+
+        size_t pos = line.find(delimiter, start);
+        if (pos != std::string::npos) {
+            std::string field = line.substr(start, pos - start);
+        }
 
         rowFields.emplace_back(line, start, pos - start);
         start = pos + 1;
