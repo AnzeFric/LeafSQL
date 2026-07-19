@@ -84,9 +84,12 @@ void QueryPreparer::prepareInsertQuery(InsertIntoStatement insertIntoStatement) 
         }
     }
 
+    insertIntoStatement.setColumns(insertColumns);
+    insertIntoStatement.setValues(insertValues);
+
     try {
         const std::string& dataTablePath = filePaths[2];
-        QueryValidator::validateInsertQuery(dataTablePath, tableColumns, tableAttributes, insertColumns, insertValues);
+        QueryValidator::validateInsertQuery(dataTablePath, tableName, tableColumns, tableAttributes, insertIntoStatement);
     } catch (const std::exception& e) {
         throw std::runtime_error("INSERT INTO TABLE '" + tableName + "': " + e.what());
     }
